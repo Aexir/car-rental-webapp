@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -24,4 +26,6 @@ public class Car {
     private boolean inUse;
     private long latitude;
     private long altitude;
+    @OneToMany
+    private Set<Rent> rentals = new HashSet<>();
 }

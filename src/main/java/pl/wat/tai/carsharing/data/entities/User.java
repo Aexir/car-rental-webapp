@@ -5,6 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -18,7 +21,10 @@ public class User {
     private String surname;
     private String email;
     private String phoneNumber;
+    private Date birthDate;
     @OneToOne(fetch=FetchType.LAZY)
     @MapsId
     private Address address;
+    @OneToMany
+    private Set<Rent> rentals = new HashSet<>();
 }
