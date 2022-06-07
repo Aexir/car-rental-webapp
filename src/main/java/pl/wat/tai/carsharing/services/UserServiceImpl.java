@@ -3,7 +3,7 @@ package pl.wat.tai.carsharing.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.wat.tai.carsharing.data.UserRequest;
-import pl.wat.tai.carsharing.data.UserRespone;
+import pl.wat.tai.carsharing.data.UserResponse;
 import pl.wat.tai.carsharing.mappers.UserMapper;
 import pl.wat.tai.carsharing.repositories.UserRepository;
 import pl.wat.tai.carsharing.services.interfaces.UserService;
@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public List<UserRespone> getAllUsers() {
+    public List<UserResponse> getAllUsers() {
         return userRepository.findAll().stream().map(userMapper::userToUserRespone).toList();
     }
 

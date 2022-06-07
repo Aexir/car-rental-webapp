@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.wat.tai.carsharing.data.CarRespone;
+import pl.wat.tai.carsharing.data.CarResponse;
 import pl.wat.tai.carsharing.data.Location;
 import pl.wat.tai.carsharing.services.interfaces.CarService;
 
@@ -19,17 +19,17 @@ public class CarController {
     private final CarService carService;
 
     @GetMapping("/all")
-    public List<CarRespone> getAllCars(){
+    public List<CarResponse> getAllCars() {
         return carService.getAllCars();
     }
 
     @GetMapping("/models")
-    public List<CarRespone> getUniqueModels() {
+    public List<CarResponse> getUniqueModels() {
         return carService.getUniqueModels();
     }
 
     @GetMapping("/location/{id}")
-    public Location getCarLocation(@RequestAttribute int id){
-        return new Location(id, 1,1);
+    public Location getCarLocation(@RequestAttribute int id) {
+        return new Location(id, 1, 1);
     }
 }

@@ -2,7 +2,7 @@ package pl.wat.tai.carsharing.mappers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import pl.wat.tai.carsharing.data.CarRespone;
+import pl.wat.tai.carsharing.data.CarResponse;
 import pl.wat.tai.carsharing.data.entities.Car;
 import pl.wat.tai.carsharing.repositories.CarRepository;
 
@@ -11,17 +11,17 @@ import pl.wat.tai.carsharing.repositories.CarRepository;
 public class CarMapper {
     private final CarRepository carRepository;
 
-    public CarRespone carToCarRespone(Car car){
-        CarRespone carRespone = new CarRespone();
-        carRespone.setCarId(car.getCarId());
-        carRespone.setFuelTank(car.getFuelTank());
-        carRespone.setFuelTankSize(car.getFuelTankSize());
+    public CarResponse carToCarRespone(Car car) {
+        CarResponse carResponse = new CarResponse();
+        carResponse.setCarId(car.getCarId());
+        carResponse.setFuelTank(car.getFuelTank());
+        carResponse.setFuelTankSize(car.getFuelTankSize());
         //carRespone.setManufacturer(car.getManufacturer());
-        carRespone.setModel(car.getModel());
-        carRespone.setInUse(car.isInUse());
-        carRespone.setFuelType(car.getFuelType());
-        carRespone.setAltitude(car.getAltitude());
-        carRespone.setLatitude(car.getLatitude());
-        return carRespone;
+        carResponse.setModel(car.getModel());
+        carResponse.setInUse(car.isInUse());
+        carResponse.setFuelType(car.getFuelType());
+        carResponse.setAltitude(car.getAltitude());
+        carResponse.setLatitude(car.getLatitude());
+        return carResponse;
     }
 }

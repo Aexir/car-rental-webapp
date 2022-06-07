@@ -1,7 +1,6 @@
 package pl.wat.tai.carsharing.data.entities;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;

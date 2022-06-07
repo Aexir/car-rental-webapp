@@ -1,6 +1,9 @@
 package pl.wat.tai.carsharing.data.entities;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -31,10 +34,11 @@ public class User {
     @NotBlank
     @Size(min = 6, max = 40)
     private String password;
-    @Size()
+    @Size(min = 9, max = 15)
     private String phoneNumber;
+
     private Date birthDate;
-    @OneToOne(fetch=FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @MapsId
     private Address address;
 
