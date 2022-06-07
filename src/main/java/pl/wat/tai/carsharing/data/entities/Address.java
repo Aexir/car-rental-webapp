@@ -8,7 +8,6 @@ import javax.persistence.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @Entity
 public class Address {
 

@@ -1,19 +1,18 @@
 package pl.wat.tai.carsharing.data.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Producers {
-
+@Getter
+@Setter
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String name;
-
+    @Enumerated(EnumType.STRING)
+    private ERole name;
 }

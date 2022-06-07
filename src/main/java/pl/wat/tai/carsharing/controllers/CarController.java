@@ -23,6 +23,11 @@ public class CarController {
         return carService.getAllCars();
     }
 
+    @GetMapping("/models")
+    public List<CarRespone> getUniqueModels() {
+        return carService.getUniqueModels();
+    }
+
     @GetMapping("/location/{id}")
     public Location getCarLocation(@RequestAttribute int id){
         return new Location(id, 1,1);
