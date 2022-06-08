@@ -16,6 +16,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/file")
+@CrossOrigin
 @RequiredArgsConstructor
 public class CarImageController {
     private final CarImageService carImageService;
