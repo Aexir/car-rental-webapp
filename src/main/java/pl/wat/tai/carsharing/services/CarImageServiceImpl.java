@@ -23,7 +23,7 @@ public class CarImageServiceImpl implements CarImageService {
     private final CarImageMapper carImageMapper;
 
     @Override
-    public void save(MultipartFile file)  {
+    public void save(MultipartFile file) {
         try {
             CarImage carImage = new CarImage();
             carImage.setName(StringUtils.cleanPath(file.getOriginalFilename()));

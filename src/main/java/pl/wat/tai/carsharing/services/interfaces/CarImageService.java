@@ -4,7 +4,6 @@ import org.springframework.web.multipart.MultipartFile;
 import pl.wat.tai.carsharing.data.CarImageResponse;
 import pl.wat.tai.carsharing.data.entities.CarImage;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
