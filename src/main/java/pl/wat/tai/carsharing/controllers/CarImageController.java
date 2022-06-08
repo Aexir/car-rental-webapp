@@ -15,7 +15,7 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/file")
+@RequestMapping("/files")
 @CrossOrigin
 @RequiredArgsConstructor
 public class CarImageController {
@@ -35,7 +35,7 @@ public class CarImageController {
     public ResponseEntity<byte[]> getFile(@PathVariable String id) {
         Optional<CarImage> fileEntityOptional = carImageService.getFile(id);
 
-        if (!fileEntityOptional.isPresent()) {
+        if (fileEntityOptional.isEmpty()) {
             return ResponseEntity.notFound()
                     .build();
         }
