@@ -30,5 +30,9 @@ public class Car {
     private CarImage carImage;
 
 
+    private float currentFuelTank;
+    private float fullTankSize;
+    private boolean inUse;
+
 
 }

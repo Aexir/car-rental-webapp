@@ -31,6 +31,11 @@ public class CarImageController {
         carImageService.save(file);
     }
 
+    @PostMapping("/named")
+    public void uploadCarImage(@RequestParam("file") MultipartFile file, @RequestParam("name") String name) {
+        carImageService.save(file, name);
+    }
+
     @GetMapping("{id}")
     public ResponseEntity<byte[]> getFile(@PathVariable String id) {
         Optional<CarImage> fileEntityOptional = carImageService.getFile(id);

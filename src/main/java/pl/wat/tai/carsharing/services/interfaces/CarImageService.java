@@ -11,6 +11,8 @@ public interface CarImageService {
 
     void save(MultipartFile file);
 
+    void save(MultipartFile file, String name);
+
     Optional<CarImage> getFile(String id);
 
     List<CarImageResponse> getAllFiles();

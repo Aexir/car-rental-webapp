@@ -37,6 +37,20 @@ public class CarImageServiceImpl implements CarImageService {
     }
 
     @Override
+    public void save(MultipartFile file, String name) {
+        try {
+            CarImage carImage = new CarImage();
+            carImage.setName(StringUtils.cleanPath(name));
+            carImage.setContentType(file.getContentType());
+            carImage.setData(file.getBytes());
+            carImage.setSize(file.getSize());
+            carRepository.save(carImage);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public Optional<CarImage> getFile(String id) {
         return carRepository.findById(id);
     }
