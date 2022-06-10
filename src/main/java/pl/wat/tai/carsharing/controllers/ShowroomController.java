@@ -11,6 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/showroom")
 @RequiredArgsConstructor
+@CrossOrigin
 public class ShowroomController {
 
 

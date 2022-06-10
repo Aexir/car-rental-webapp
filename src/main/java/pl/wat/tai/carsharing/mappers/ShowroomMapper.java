@@ -14,7 +14,6 @@ public class ShowroomMapper {
 
     public Showroom requestToShowroom(ShowroomRequest showroomRequest){
         Showroom showroom = new Showroom();
-        showroom.setId(showroomRequest.getId());
         showroom.setName(showroomRequest.getName());
         Location location = new Location();
         location.setLongitude(showroomRequest.getLongitude());
