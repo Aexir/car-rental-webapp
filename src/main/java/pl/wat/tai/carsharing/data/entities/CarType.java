@@ -1,7 +1,6 @@
 package pl.wat.tai.carsharing.data.entities;
 
 import pl.wat.tai.carsharing.data.entities.enums.ECarType;
-import pl.wat.tai.carsharing.data.entities.enums.ERole;
 
 import javax.persistence.*;
 

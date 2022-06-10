@@ -29,10 +29,17 @@ public class Car {
             inverseJoinColumns = @JoinColumn(name = "image_id"))
     private CarImage carImage;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinTable(name = "car_carStatus",
+            joinColumns = @JoinColumn(name = "car_id"),
+            inverseJoinColumns = @JoinColumn(name = "car_status_id"))
+    private CarStatus carStatus;
+
 
     private float currentFuelTank;
     private float fullTankSize;
     private boolean inUse;
-
+    @OneToOne
+    private Location location;
 
 }
