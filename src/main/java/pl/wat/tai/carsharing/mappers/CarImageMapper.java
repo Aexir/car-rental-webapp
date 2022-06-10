@@ -8,7 +8,6 @@ import pl.wat.tai.carsharing.data.response.CarImageResponse;
 
 
 @Component
-@RequiredArgsConstructor
 public class CarImageMapper {
 
 

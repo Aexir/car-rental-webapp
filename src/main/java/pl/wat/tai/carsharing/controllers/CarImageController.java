@@ -51,4 +51,9 @@ public class CarImageController {
                 .contentType(MediaType.valueOf(fileEntity.getContentType()))
                 .body(fileEntity.getData());
     }
+
+    @PostMapping("{id}")
+    public void removeFile(@PathVariable String id){
+        carImageService.removeFile(id);
+    }
 }

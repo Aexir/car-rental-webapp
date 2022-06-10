@@ -1,8 +1,6 @@
 package pl.wat.tai.carsharing.data.entities;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 public class Car {
@@ -34,12 +32,4 @@ public class Car {
             joinColumns = @JoinColumn(name = "car_id"),
             inverseJoinColumns = @JoinColumn(name = "car_status_id"))
     private CarStatus carStatus;
-
-
-    private float currentFuelTank;
-    private float fullTankSize;
-    private boolean inUse;
-    @OneToOne
-    private Location location;
-
 }

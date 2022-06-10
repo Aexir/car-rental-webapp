@@ -17,4 +17,6 @@ public interface CarImageService {
 
     List<CarImageResponse> getAllFiles();
 
+    void removeFile(String id);
+
 }

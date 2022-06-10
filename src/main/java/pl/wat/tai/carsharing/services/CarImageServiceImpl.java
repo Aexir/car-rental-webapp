@@ -61,4 +61,9 @@ public class CarImageServiceImpl implements CarImageService {
                 .map(carImageMapper::mapToFileResponse)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public void removeFile(String id) {
+
+    }
 }
