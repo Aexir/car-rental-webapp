@@ -22,7 +22,7 @@ public class ShowroomServiceImpl implements ShowroomService {
 
     @Override
     public void addShowroom(ShowroomRequest showroomRequest) {
-        showroomRepository.findAll().add(showroomMapper.requestToShowroom(showroomRequest));
+        showroomRepository.save(showroomMapper.requestToShowroom(showroomRequest));
     }
 
     @Override
