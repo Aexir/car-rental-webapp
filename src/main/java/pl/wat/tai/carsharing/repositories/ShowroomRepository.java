@@ -11,5 +11,4 @@ public interface ShowroomRepository extends JpaRepository<Showroom, Long> {
 
     @Query("FROM Showroom t WHERE t.name = ?1")
     Showroom findByName(String name);
-
 }
