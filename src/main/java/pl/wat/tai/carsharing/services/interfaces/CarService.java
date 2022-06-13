@@ -9,6 +9,8 @@ import java.util.List;
 public interface CarService {
 
     void addNewCar(CarRequest carRequest);
-    public void addNewCar(CarRequest carRequest, MultipartFile file);
+    void addNewCar(CarRequest carRequest, MultipartFile file);
+    void addNewCar(String brand, String model, int seats, String transmission, String fuel, String carType, MultipartFile file);
+
     List<CarResponse> getAllCars();
 }

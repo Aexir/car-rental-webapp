@@ -13,7 +13,7 @@ public class CarMapper {
         carResponse.setCurrentFuelTank(0);
         carResponse.setModel(car.getModel());
         carResponse.setProducer(car.getBrand());
-        carResponse.setCarStatus(car.getCarStatus().getName().toString());
+        carResponse.setCarStatus("car.getCarStatus().getName().toString()");
         return carResponse;
     }
 }

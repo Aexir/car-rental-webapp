@@ -20,9 +20,15 @@ public class CarController {
     private final CarService carService;
 
     @PostMapping("/add")
-    public void addNewCar(@RequestBody CarRequest carRequest/*, @RequestParam(value = "file", required = false) MultipartFile file*/){
-        carService.addNewCar(carRequest);
+    public void addNewCar(@RequestParam   String brand, @RequestParam String model,
+                          @RequestParam  int seats,
+                          @RequestParam   String transmission,
+                          @RequestParam  String fuel,
+                          @RequestParam   String carType,@RequestParam(name = "file", required = false) MultipartFile file){
+//        carService.addNewCar(carRequest, file);
+        carService.addNewCar(brand, model, seats, transmission, fuel, carType, file);
     }
+
 
     @GetMapping("/all")
     public List<CarResponse> getAllCars(){

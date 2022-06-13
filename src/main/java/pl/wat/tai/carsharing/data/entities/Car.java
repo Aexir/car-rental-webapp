@@ -32,7 +32,7 @@ public class Car {
             inverseJoinColumns = @JoinColumn(name = "type_id"))
     private CarType carType;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "car_car_image",
             joinColumns = @JoinColumn(name = "car_id"),
             inverseJoinColumns = @JoinColumn(name = "image_id"))

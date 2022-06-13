@@ -4,7 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.wat.tai.carsharing.data.entities.Car;
 import pl.wat.tai.carsharing.data.entities.CarImage;
+import pl.wat.tai.carsharing.data.entities.CarStatus;
 import pl.wat.tai.carsharing.data.entities.Showroom;
+import pl.wat.tai.carsharing.data.entities.enums.ECarStatus;
 import pl.wat.tai.carsharing.data.requests.TableRequest;
 import pl.wat.tai.carsharing.data.response.ShowroomResponse;
 import pl.wat.tai.carsharing.data.response.TableResponse;
@@ -34,21 +36,22 @@ public class TableServiceImpl implements TableService {
 
         Showroom showroom = showroomRepository.findByName(tableRequest.getShowroom());
         for (Car car : showroom.getCars()){
-            TableResponse tableResponse = new TableResponse();
-            CarImage carImage = carImageRepository.getByName(car.getBrand()+car.getModel());
-            tableResponse.setUrl(carImageMapper.mapToFileResponse(carImage).getUrl());
-            tableResponse.setYear(car.getYear());
-            tableResponse.setBrand(car.getBrand());
-            tableResponse.setModel(car.getModel());
-            tableResponse.setFuel(car.getFuel().toString());
-            tableResponse.setSeats(car.getSeats());
-            tableResponse.setShowroom(showroom.getName());
-            tableResponse.setTransmission(car.getTransmission());
-            tableResponse.setType(car.getCarType().toString());
-            tableResponses.add(tableResponse);
+            if (car.getCarStatus().getName() == ECarStatus.FREE)
+            {
+                TableResponse tableResponse = new TableResponse();
+                CarImage carImage = carImageRepository.getByName(car.getBrand()+car.getModel());
+                tableResponse.setUrl(carImageMapper.mapToFileResponse(carImage).getUrl());
+                tableResponse.setYear(car.getYear());
+                tableResponse.setBrand(car.getBrand());
+                tableResponse.setModel(car.getModel());
+                tableResponse.setFuel(car.getFuel().toString());
+                tableResponse.setSeats(car.getSeats());
+                tableResponse.setShowroom(showroom.getName());
+                tableResponse.setTransmission(car.getTransmission());
+                tableResponse.setType(car.getCarType().toString());
+                tableResponses.add(tableResponse);
+            }
         }
-
-
         return tableResponses;
     }
 }

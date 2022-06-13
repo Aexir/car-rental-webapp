@@ -1,10 +1,6 @@
 package pl.wat.tai.carsharing.data.requests;
 
 import lombok.Data;
-import pl.wat.tai.carsharing.data.entities.CarImage;
-import pl.wat.tai.carsharing.data.entities.CarStatus;
-import pl.wat.tai.carsharing.data.entities.CarType;
-import pl.wat.tai.carsharing.data.entities.Fuel;
 
 @Data
 public class CarRequest {
