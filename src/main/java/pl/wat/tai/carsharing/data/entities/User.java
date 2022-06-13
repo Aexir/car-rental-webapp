@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -38,15 +39,16 @@ public class User {
     @Size(max = 120)
     private String password;
 
+    private String name;
+    private String surname;
+    private Date birthDate;
+    private String phoneNumber;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    public User(String username, String email, String password) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-    }
+
 }

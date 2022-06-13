@@ -1,10 +1,13 @@
 package pl.wat.tai.carsharing.data.entities;
 
+import lombok.Getter;
+import pl.wat.tai.carsharing.data.entities.enums.ECarStatus;
 import pl.wat.tai.carsharing.data.entities.enums.ECarType;
 
 import javax.persistence.*;
 
 @Entity
+@Getter
 public class CarStatus {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,5 +15,5 @@ public class CarStatus {
 
         @Enumerated(EnumType.STRING)
         @Column(length = 20)
-        private ECarType name;
+        private ECarStatus name;
     }

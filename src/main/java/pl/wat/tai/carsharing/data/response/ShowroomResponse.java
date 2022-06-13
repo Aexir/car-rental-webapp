@@ -1,6 +1,9 @@
 package pl.wat.tai.carsharing.data.response;
 
 import lombok.Data;
+import pl.wat.tai.carsharing.data.entities.Car;
+
+import java.util.List;
 
 @Data
 public class ShowroomResponse {
@@ -8,4 +11,5 @@ public class ShowroomResponse {
         private String name;
         private float latitude;
         private float longitude;
+        private List<CarResponse> carList;
 }

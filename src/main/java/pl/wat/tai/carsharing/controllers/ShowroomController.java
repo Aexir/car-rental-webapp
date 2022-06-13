@@ -37,4 +37,14 @@ public class ShowroomController {
         return showroomService.get(name);
     }
 
+    @PostMapping("/{name}/{id}")
+    public void addCarToShowroom(@PathVariable String name, @PathVariable long id){
+        showroomService.addCarToShowroom(name, id);
+    }
+
+    @GetMapping("/names")
+    public List<String> getShowroomNames(){
+        return showroomService.getShowroomNames();
+    }
+
 }

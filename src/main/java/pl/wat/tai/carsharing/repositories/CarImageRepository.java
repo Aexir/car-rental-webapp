@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CarImageRepository extends JpaRepository<CarImage, String> {
-
+    CarImage getByName(String name);
 }

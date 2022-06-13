@@ -9,9 +9,10 @@ import lombok.NoArgsConstructor;
 @Data
 public class CarResponse {
     private long carId;
+    private String year;
     private String producer;
     private String model;
     private float currentFuelTank;
     private float fullTankSize;
-    private boolean inUse;
+    private String carStatus;
 }

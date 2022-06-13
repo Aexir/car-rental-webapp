@@ -5,4 +5,4 @@ import org.springframework.stereotype.Repository;
 import pl.wat.tai.carsharing.data.entities.Car;
 
 @Repository
-public interface CarRepository extends JpaRepository<Car, String> {}
+public interface CarRepository extends JpaRepository<Car, Long> {}

@@ -1,7 +1,7 @@
 package pl.wat.tai.carsharing.data.entities.enums;
 
 public enum EFuel {
-    DIESEL,
+    ON,
     PB95,
     LPG,
     ELECTRIC

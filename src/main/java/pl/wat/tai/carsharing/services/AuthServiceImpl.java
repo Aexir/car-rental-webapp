@@ -81,12 +81,22 @@ public class AuthServiceImpl implements AuthService {
         }
 
         // Create new user's account
-        User user = new User(signUpRequest.getUsername(),
-                signUpRequest.getEmail(),
-                encoder.encode(signUpRequest.getPassword()));
+        User user = new User();
+        user.setUsername(signUpRequest.getUsername());
+        user.setEmail(signUpRequest.getEmail());
+        user.setPassword(encoder.encode(signUpRequest.getPassword()));
+
+        user.setName(signUpRequest.getName());
+        user.setSurname(signUpRequest.getSurname());
+        user.setBirthDate(signUpRequest.getBirthDate());
+        user.setPhoneNumber(signUpRequest.getPhoneNumber());
+
 
         Set<String> strRoles = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();
+        Role accountStatus = roleRepository.findByName(ERole.ROLE_INACTIVE)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        roles.add(accountStatus);
 
         if (strRoles == null) {
             Role userRole = roleRepository.findByName(ERole.ROLE_USER)
@@ -99,11 +109,6 @@ public class AuthServiceImpl implements AuthService {
                         Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(adminRole);
-                    }
-                    case "mod" -> {
-                        Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(modRole);
                     }
                     default -> {
                         Role userRole = roleRepository.findByName(ERole.ROLE_USER)

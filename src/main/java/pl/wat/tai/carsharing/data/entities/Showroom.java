@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.List;
@@ -19,8 +18,12 @@ public class Showroom {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
-    @OneToOne(cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @PrimaryKeyJoinColumn
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Location location;
 
+    @OneToMany
+    @JoinTable(name = "showroom_car",
+            joinColumns = @JoinColumn(name = "showroom_id"),
+            inverseJoinColumns = @JoinColumn(name = "car_id"))
+    private List<Car> cars;
 }
