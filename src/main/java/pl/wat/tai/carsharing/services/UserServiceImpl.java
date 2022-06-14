@@ -47,19 +47,23 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity<?> updateUserInfo(UpdateRequest updateRequest) {
 
-        if (userRepository.existsByUsername(updateRequest.getUsername())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Username is already taken!"));
-        }
-
-        if (userRepository.existsByEmail(updateRequest.getEmail())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Email is already in use!"));
+        if (!updateRequest.getCurrentUsername().contains(updateRequest.getUsername()))
+        {
+            if (userRepository.existsByUsername(updateRequest.getUsername())) {
+                return ResponseEntity
+                        .badRequest()
+                        .body(new MessageResponse("Error: Username is already taken!"));
+            }
         }
         User user = userRepository.findByUsername(updateRequest.getCurrentUsername()).get();
 
+        if (!user.getEmail().contains(updateRequest.getEmail())){
+            if (userRepository.existsByEmail(updateRequest.getEmail())) {
+                return ResponseEntity
+                        .badRequest()
+                        .body(new MessageResponse("Error: Email is already in use!"));
+            }
+        }
 
         user.setUsername(updateRequest.getUsername());
         user.setEmail(updateRequest.getEmail());
@@ -77,10 +81,13 @@ public class UserServiceImpl implements UserService {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
-        return ResponseEntity.ok(new JwtResponse(jwt,
+
+        JwtResponse jwtResponse = new JwtResponse(jwt,
                 userDetails.getId(),
                 userDetails.getUsername(),
                 userDetails.getEmail(),
-                roles));
+                roles);
+
+        return ResponseEntity.ok(jwtResponse);
     }
 }

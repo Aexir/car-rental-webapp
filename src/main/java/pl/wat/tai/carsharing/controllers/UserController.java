@@ -1,6 +1,7 @@
 package pl.wat.tai.carsharing.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.wat.tai.carsharing.data.requests.UpdateRequest;
@@ -24,16 +25,16 @@ public class UserController {
     }
 
 
-    @PostMapping("/updateProfile")
+    @PostMapping(value = "/updateProfile", produces="application/json")
     @PreAuthorize("hasRole('USER')")
-    public void updateUserInfo(@RequestBody UpdateRequest updateRequest){
-        userService.updateUserInfo(updateRequest);
+    public ResponseEntity<?> updateUserInfo(@RequestBody UpdateRequest updateRequest){
+        return userService.updateUserInfo(updateRequest);
     }
 
     @PostMapping("/updatePassword")
     @PreAuthorize("hasRole('USER')")
-    public void updatePassword(){
-
+    public ResponseEntity<?> updatePassword(){
+        return null;
     }
 
 
