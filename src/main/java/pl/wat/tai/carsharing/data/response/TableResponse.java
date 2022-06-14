@@ -13,4 +13,5 @@ public class TableResponse {
     private int seats;
     private String transmission;
     private String fuel;
+    private long id;
 }
