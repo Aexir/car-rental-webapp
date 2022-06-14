@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import pl.wat.tai.carsharing.data.requests.UpdatePasswordRequest;
 import pl.wat.tai.carsharing.data.requests.UpdateRequest;
 import pl.wat.tai.carsharing.data.response.UserResponse;
 import pl.wat.tai.carsharing.services.interfaces.UserService;
@@ -33,8 +34,8 @@ public class UserController {
 
     @PostMapping("/updatePassword")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> updatePassword(){
-        return null;
+    public ResponseEntity<?> updatePassword(@RequestBody UpdatePasswordRequest updatePasswordRequest){
+        return userService.updateUserPassword(updatePasswordRequest);
     }
 
 

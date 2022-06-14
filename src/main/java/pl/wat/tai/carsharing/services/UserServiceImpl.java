@@ -13,6 +13,7 @@ import pl.wat.tai.carsharing.data.entities.Role;
 import pl.wat.tai.carsharing.data.entities.User;
 import pl.wat.tai.carsharing.data.entities.enums.ERole;
 import pl.wat.tai.carsharing.data.requests.SignupRequest;
+import pl.wat.tai.carsharing.data.requests.UpdatePasswordRequest;
 import pl.wat.tai.carsharing.data.requests.UpdateRequest;
 import pl.wat.tai.carsharing.data.response.JwtResponse;
 import pl.wat.tai.carsharing.data.response.MessageResponse;
@@ -72,6 +73,42 @@ public class UserServiceImpl implements UserService {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(updateRequest.getUsername(), updateRequest.getPassword()));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = jwtUtils.generateJwtToken(authentication);
+
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        List<String> roles = userDetails.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList());
+
+
+        JwtResponse jwtResponse = new JwtResponse(jwt,
+                userDetails.getId(),
+                userDetails.getUsername(),
+                userDetails.getEmail(),
+                roles);
+
+        return ResponseEntity.ok(jwtResponse);
+    }
+
+    @Override
+    public ResponseEntity<?> updateUserPassword(UpdatePasswordRequest updatePasswordRequest) {
+        User user = userRepository.findByUsername(updatePasswordRequest.getUsername()).get();
+        String currentPassword = encoder.encode(updatePasswordRequest.getCurrentPassword());
+        String newPassword = encoder.encode(updatePasswordRequest.getNewPassword());
+        if (currentPassword.equals(user.getPassword())){
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Password not match!"));
+        }
+        if (currentPassword.equals(newPassword)){
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: New password contains old password!"));
+        }
+                    Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(updatePasswordRequest.getUsername(), newPassword));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
