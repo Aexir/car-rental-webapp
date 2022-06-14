@@ -4,20 +4,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.wat.tai.carsharing.data.entities.Car;
 import pl.wat.tai.carsharing.data.entities.CarImage;
-import pl.wat.tai.carsharing.data.entities.CarStatus;
 import pl.wat.tai.carsharing.data.entities.Showroom;
 import pl.wat.tai.carsharing.data.entities.enums.ECarStatus;
 import pl.wat.tai.carsharing.data.requests.TableRequest;
-import pl.wat.tai.carsharing.data.response.ShowroomResponse;
 import pl.wat.tai.carsharing.data.response.TableResponse;
 import pl.wat.tai.carsharing.mappers.CarImageMapper;
 import pl.wat.tai.carsharing.repositories.CarImageRepository;
 import pl.wat.tai.carsharing.repositories.CarRepository;
 import pl.wat.tai.carsharing.repositories.ShowroomRepository;
-import pl.wat.tai.carsharing.services.interfaces.CarImageService;
 import pl.wat.tai.carsharing.services.interfaces.CarService;
 import pl.wat.tai.carsharing.services.interfaces.TableService;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +29,8 @@ public class TableServiceImpl implements TableService {
     private final ShowroomRepository showroomRepository;
     private final CarImageMapper carImageMapper;
 
+
+    @Transactional
     public List<TableResponse> getAll(TableRequest tableRequest){
         List<TableResponse> tableResponses = new ArrayList<>();
 
