@@ -2,6 +2,7 @@ package pl.wat.tai.carsharing.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.wat.tai.carsharing.data.entities.Car;
 import pl.wat.tai.carsharing.data.entities.CarImage;
 import pl.wat.tai.carsharing.data.entities.Showroom;
@@ -40,7 +41,17 @@ public class TableServiceImpl implements TableService {
             {
                 TableResponse tableResponse = new TableResponse();
                 CarImage carImage = carImageRepository.getByName(car.getBrand()+car.getModel());
-                tableResponse.setUrl(carImageMapper.mapToFileResponse(carImage).getUrl());
+                if (carImage != null){
+                    String downloadURL = ServletUriComponentsBuilder.fromCurrentContextPath()
+                            .path("/files/")
+                            .path(carImage.getId())
+                            .toUriString();
+                    tableResponse.setUrl(downloadURL);
+                } else {
+                    tableResponse.setUrl("");
+                }
+
+
                 tableResponse.setYear(car.getYear());
                 tableResponse.setBrand(car.getBrand());
                 tableResponse.setModel(car.getModel());

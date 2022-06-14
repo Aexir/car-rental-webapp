@@ -97,18 +97,28 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByUsername(updatePasswordRequest.getUsername()).get();
         String currentPassword = encoder.encode(updatePasswordRequest.getCurrentPassword());
         String newPassword = encoder.encode(updatePasswordRequest.getNewPassword());
-        if (currentPassword.equals(user.getPassword())){
+        System.out.println(updatePasswordRequest.getNewPassword());
+        System.out.println(updatePasswordRequest.getCurrentPassword());
+
+        System.out.println(currentPassword);
+        System.out.println(user.getPassword());
+        System.out.println(newPassword);
+        if (!user.getPassword().contains(currentPassword)){
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Password not match!"));
         }
-        if (currentPassword.equals(newPassword)){
+        if (currentPassword.contains(newPassword)){
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: New password contains old password!"));
         }
-                    Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(updatePasswordRequest.getUsername(), newPassword));
+
+        user.setPassword(newPassword);
+        userRepository.save(user);
+
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(user.getUsername(), newPassword));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
