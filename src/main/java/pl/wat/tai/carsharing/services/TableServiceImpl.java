@@ -40,7 +40,7 @@ public class TableServiceImpl implements TableService {
             if (car.getCarStatus().getName() == ECarStatus.FREE)
             {
                 TableResponse tableResponse = new TableResponse();
-                CarImage carImage = carImageRepository.getByName(car.getBrand()+car.getModel());
+                CarImage carImage = car.getCarImage();
                 if (carImage != null){
                     String downloadURL = ServletUriComponentsBuilder.fromCurrentContextPath()
                             .path("/files/")
@@ -58,7 +58,7 @@ public class TableServiceImpl implements TableService {
 
                 tableResponse.setBrand(car.getBrand());
                 tableResponse.setModel(car.getModel());
-                tableResponse.setFuel(car.getFuel().toString());
+                tableResponse.setFuel(car.getFuel().getName().toString());
                 tableResponse.setSeats(car.getSeats());
                 tableResponse.setShowroom(showroom.getName());
                 tableResponse.setTransmission(car.getTransmission());

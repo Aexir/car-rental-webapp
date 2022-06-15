@@ -14,6 +14,5 @@ public interface CarService {
     AboutCarResponse aboutCar(long id);
     void editCar(long id, String carStatus, MultipartFile file, String plate, Float price);
     void setCarStatus(CarStatusRequest carStatusRequest);
-
     void removeCar(long id);
 }

@@ -25,7 +25,7 @@ public class SpringFoxConfig {
     @Bean
     public JavaMailSender getJavaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("smtp.gmail.com");
+        mailSender.setHost("smtp-relay.sendinblue.com");
         mailSender.setPort(465);
 
         mailSender.setUsername("m.dabkowski2198@gmail.com");
