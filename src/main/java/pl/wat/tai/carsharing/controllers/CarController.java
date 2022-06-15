@@ -52,4 +52,9 @@ public class CarController {
                         @RequestParam Float priceRequestBody){
         carService.editCar(id, carStatus, file, plate, priceRequestBody);
     }
+
+    @PostMapping("/remove/{id}")
+    public void removeCar(@PathVariable long id){
+        carService.removeCar(id);
+    }
 }

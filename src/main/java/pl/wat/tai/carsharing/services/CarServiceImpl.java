@@ -89,6 +89,11 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
+    public void removeCar(long id) {
+        carRepository.deleteById(id);
+    }
+
+    @Override
     @Transactional
     public void editCar(long id, String carStatus, MultipartFile file, String plate, Float price) {
         Car car = carRepository.getReferenceById(id);

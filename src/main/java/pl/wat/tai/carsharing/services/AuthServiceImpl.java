@@ -1,9 +1,12 @@
 package pl.wat.tai.carsharing.services;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,6 +22,7 @@ import pl.wat.tai.carsharing.data.requests.SignupRequest;
 import pl.wat.tai.carsharing.data.response.JwtResponse;
 import pl.wat.tai.carsharing.data.response.MessageResponse;
 import pl.wat.tai.carsharing.repositories.RoleRepository;
+import pl.wat.tai.carsharing.repositories.TokenRepository;
 import pl.wat.tai.carsharing.repositories.UserRepository;
 import pl.wat.tai.carsharing.services.interfaces.AuthService;
 import pl.wat.tai.carsharing.utils.JwtUtils;
@@ -26,6 +30,7 @@ import pl.wat.tai.carsharing.utils.JwtUtils;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,7 +42,9 @@ public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder encoder;
-
+    @Autowired
+    private final EmailService emailService;
+    private final TokenRepository tokenRepository;
 
     public ResponseEntity<?> logoutUser() {
 //        ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
@@ -122,6 +129,22 @@ public class AuthServiceImpl implements AuthService {
         user.setRoles(roles);
         userRepository.save(user);
 
+        String token = UUID.randomUUID().toString();
+
+        String confirmationUrl
+                = "http://localhost:8080/confirm?token=" + token;
+
+        SimpleMailMessage email = new SimpleMailMessage();
+        email.setTo(user.getEmail());
+        email.setSubject("ACCOUNT ACTIVATION");
+        email.setText("ACTIVATE YOUR ACCOUNT:   " + "\r\n" + "http://localhost:8080" + confirmationUrl);
+        emailService.sendEmail(email);
+
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+    }
+
+    @Override
+    public ResponseEntity<?> confirmUser(String token) {
+        return null;
     }
 }

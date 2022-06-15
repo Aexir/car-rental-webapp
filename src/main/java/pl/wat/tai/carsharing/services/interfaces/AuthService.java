@@ -11,4 +11,6 @@ public interface AuthService {
     ResponseEntity<?> authenticateUser(LoginRequest loginRequest);
 
     ResponseEntity<?> registerUser(SignupRequest signUpRequest);
+
+    ResponseEntity<?> confirmUser(String token);
 }
