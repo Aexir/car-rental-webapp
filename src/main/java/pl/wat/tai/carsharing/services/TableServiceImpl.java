@@ -62,7 +62,7 @@ public class TableServiceImpl implements TableService {
                 tableResponse.setSeats(car.getSeats());
                 tableResponse.setShowroom(showroom.getName());
                 tableResponse.setTransmission(car.getTransmission());
-                tableResponse.setType(car.getCarType().toString());
+                tableResponse.setType(car.getCarType().getName().toString());
                 tableResponse.setId(car.getId());
                 tableResponses.add(tableResponse);
             }

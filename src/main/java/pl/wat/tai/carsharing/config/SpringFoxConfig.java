@@ -26,10 +26,10 @@ public class SpringFoxConfig {
     public JavaMailSender getJavaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost("smtp-relay.sendinblue.com");
-        mailSender.setPort(465);
+        mailSender.setPort(587);
 
-        mailSender.setUsername("m.dabkowski2198@gmail.com");
-        mailSender.setPassword("Krasnobrodzka6!");
+        mailSender.setUsername("mcparkour1337@gmail.com");
+        mailSender.setPassword("45tPIKnsGyd0JjCY");
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
         props.put("mail.smtp.auth", "true");

@@ -1,5 +1,6 @@
 package pl.wat.tai.carsharing.services;
 
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -25,8 +26,12 @@ import pl.wat.tai.carsharing.repositories.RoleRepository;
 import pl.wat.tai.carsharing.repositories.TokenRepository;
 import pl.wat.tai.carsharing.repositories.UserRepository;
 import pl.wat.tai.carsharing.services.interfaces.AuthService;
+import pl.wat.tai.carsharing.services.interfaces.GmailService;
 import pl.wat.tai.carsharing.utils.JwtUtils;
 
+import javax.mail.MessagingException;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -42,8 +47,6 @@ public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder encoder;
-    @Autowired
-    private final EmailService emailService;
     private final TokenRepository tokenRepository;
 
     public ResponseEntity<?> logoutUser() {
@@ -74,7 +77,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public ResponseEntity<?> registerUser(SignupRequest signUpRequest) {
+    public ResponseEntity<?> registerUser(SignupRequest signUpRequest) throws GeneralSecurityException, IOException, MessagingException {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity
                     .badRequest()
@@ -134,11 +137,23 @@ public class AuthServiceImpl implements AuthService {
         String confirmationUrl
                 = "http://localhost:8080/confirm?token=" + token;
 
-        SimpleMailMessage email = new SimpleMailMessage();
-        email.setTo(user.getEmail());
-        email.setSubject("ACCOUNT ACTIVATION");
-        email.setText("ACTIVATE YOUR ACCOUNT:   " + "\r\n" + "http://localhost:8080" + confirmationUrl);
-        emailService.sendEmail(email);
+
+        GmailService gmailService = new GmailServiceImpl(GoogleNetHttpTransport.newTrustedTransport());
+        gmailService.setGmailCredentials(GmailCredentials.builder()
+                .userEmail("mcparkour1337@gmail.com")
+                .clientId("685363740170-us1mi13qqrff6ktunh3d67b0bsff4h7j.apps.googleusercontent.com")
+                .clientSecret("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")
+                .accessToken("ya29.a0ARrdaM8e34zK-L8iN6c5y59av-OnmBxt537YRMu1Hy7yibS9LQ4fyX48qxFJ9mDDCgOANUET73MPLtIEMprmF5c8N5uAm6mU16y4NAnDFb1ecsDDHXjyc707a0QTgNdNSOzkIUxf2UO4NYJC4XivY-gB-MOc")
+                .refreshToken("1//0cXq9ETZ4UH17CgYIARAAGAwSNwF-L9Irg62UoLKtsxlrRkPNgBxeZlCzTMCtaQMvXe-YhYFfwdOqQgJ-3NOEWaLB8FL2rKxbcnM")
+                .build());
+
+        gmailService.sendMessage("mcparkour1337@gmail.com", "Subject", "body text");
+
+//        SimpleMailMessage email = new SimpleMailMessage();
+//        email.setTo(user.getEmail());
+//        email.setSubject("ACCOUNT ACTIVATION");
+//        email.setText("ACTIVATE YOUR ACCOUNT:   " + "\r\n" + "http://localhost:8080" + confirmationUrl);
+//        emailService.sendEmail(email);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }

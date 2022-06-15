@@ -9,9 +9,13 @@ import org.springframework.web.bind.annotation.*;
 import pl.wat.tai.carsharing.data.requests.LoginRequest;
 import pl.wat.tai.carsharing.data.requests.SignupRequest;
 
+import pl.wat.tai.carsharing.data.response.MessageResponse;
 import pl.wat.tai.carsharing.services.interfaces.AuthService;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -31,7 +35,12 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-        return authService.registerUser(signUpRequest);
+        try {
+            return authService.registerUser(signUpRequest);
+        } catch (GeneralSecurityException | IOException | MessagingException e) {
+
+            return ResponseEntity.badRequest().body(new MessageResponse("Cannot register user"));
+        }
     }
 
     @PostMapping("/signout")
