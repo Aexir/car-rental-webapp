@@ -1,5 +1,6 @@
 package pl.wat.tai.carsharing.data.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,8 +12,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class Showroom {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +21,7 @@ public class Showroom {
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Location location;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "showroom_car",
             joinColumns = @JoinColumn(name = "showroom_id"),
             inverseJoinColumns = @JoinColumn(name = "car_id"))

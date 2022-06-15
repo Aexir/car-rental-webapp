@@ -1,18 +1,22 @@
 package pl.wat.tai.carsharing.data.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
 public class CarResponse {
-    private long carId;
-    private String year;
-    private String producer;
-    private String model;
-    private float currentFuelTank;
-    private float fullTankSize;
+    private long id;
+    private String brand;//
+    private String model;//
+    private int seats;//
+    private String transmission;//
+    private String engine;
+    private float price;
+    private String plate;
+    private String vin;
+
+
+    private String fuel;
+    private String carType;
+    private String carImageUrl;
     private String carStatus;
 }

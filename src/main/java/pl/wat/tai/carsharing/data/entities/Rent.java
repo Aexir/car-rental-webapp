@@ -1,28 +1,32 @@
 package pl.wat.tai.carsharing.data.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.sql.Date;
 
 @Entity
+@Getter
+@Setter
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class Rent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Showroom showroom;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Car car;
 
     private Date startDate;
     private Date endDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinTable(name = "rent_status",
-            joinColumns = @JoinColumn(name = "rent_id"),
-            inverseJoinColumns = @JoinColumn(name = "rent_status_id"))
-    private RentStatus rentStatus;
+    private String rentStatus;
+    private float price;
 
 
 }

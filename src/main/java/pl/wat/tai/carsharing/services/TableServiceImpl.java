@@ -48,11 +48,14 @@ public class TableServiceImpl implements TableService {
                             .toUriString();
                     tableResponse.setUrl(downloadURL);
                 } else {
-                    tableResponse.setUrl("");
+                    String downloadURL = ServletUriComponentsBuilder.fromCurrentContextPath()
+                            .path("/files/")
+                            .path(carImageRepository.findAll().get(0).getId())
+                            .toUriString();
+                    tableResponse.setUrl(downloadURL);
                 }
 
 
-                tableResponse.setYear(car.getYear());
                 tableResponse.setBrand(car.getBrand());
                 tableResponse.setModel(car.getModel());
                 tableResponse.setFuel(car.getFuel().toString());

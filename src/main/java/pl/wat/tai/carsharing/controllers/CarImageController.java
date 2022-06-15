@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.wat.tai.carsharing.data.entities.CarImage;
 import pl.wat.tai.carsharing.data.response.CarImageResponse;
+import pl.wat.tai.carsharing.data.response.CarSliderResponse;
 import pl.wat.tai.carsharing.services.interfaces.CarImageService;
 
 import java.util.List;
@@ -50,6 +51,11 @@ public class CarImageController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileEntity.getName() + "\"")
                 .contentType(MediaType.valueOf(fileEntity.getContentType()))
                 .body(fileEntity.getData());
+    }
+
+    @GetMapping("/slider")
+    public List<CarSliderResponse> getCarSliderImages(){
+        return carImageService.getCarSliderImages();
     }
 
     @PostMapping("{id}")

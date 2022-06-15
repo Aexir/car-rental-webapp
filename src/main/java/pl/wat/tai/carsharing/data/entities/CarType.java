@@ -1,10 +1,12 @@
 package pl.wat.tai.carsharing.data.entities;
 
+import lombok.Getter;
 import pl.wat.tai.carsharing.data.entities.enums.ECarType;
 
 import javax.persistence.*;
 
 @Entity
+@Getter
 @Table(name = "cartypes")
 public class CarType {
     @Id

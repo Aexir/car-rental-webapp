@@ -1,11 +1,10 @@
 package pl.wat.tai.carsharing.controllers;
 
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import pl.wat.tai.carsharing.data.requests.CarRequest;
+import pl.wat.tai.carsharing.data.requests.CarStatusRequest;
+import pl.wat.tai.carsharing.data.response.AboutCarResponse;
 import pl.wat.tai.carsharing.data.response.CarResponse;
 import pl.wat.tai.carsharing.services.interfaces.CarService;
 
@@ -24,14 +23,33 @@ public class CarController {
                           @RequestParam  int seats,
                           @RequestParam   String transmission,
                           @RequestParam  String fuel,
-                          @RequestParam   String carType,@RequestParam(name = "file", required = false) MultipartFile file){
+                          @RequestParam   String carType,@RequestParam(name = "file", required = false) MultipartFile file,
+                          @RequestParam String engine, @RequestParam String plate, @RequestParam String vin, @RequestParam float price){
 //        carService.addNewCar(carRequest, file);
-        carService.addNewCar(brand, model, seats, transmission, fuel, carType, file);
+        carService.addNewCar(brand, model, seats, transmission, fuel, carType, file, engine, plate, vin, price);
     }
 
+    @GetMapping("")
+    public AboutCarResponse aboutCar(@RequestParam long id){
+        return carService.aboutCar(id);
+    }
 
     @GetMapping("/all")
     public List<CarResponse> getAllCars(){
         return carService.getAllCars();
+    }
+
+    @PostMapping
+    public void setCarStatus(@RequestBody CarStatusRequest carStatusRequest){
+        carService.setCarStatus(carStatusRequest);
+    }
+
+    @PostMapping("/edit")
+    public void editCar(@RequestParam long id,
+                        @RequestParam String carStatus,
+                        @RequestParam MultipartFile file,
+                        @RequestParam String plate,
+                        @RequestParam Float priceRequestBody){
+        carService.editCar(id, carStatus, file, plate, priceRequestBody);
     }
 }

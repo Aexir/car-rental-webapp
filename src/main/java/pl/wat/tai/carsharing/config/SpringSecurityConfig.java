@@ -75,7 +75,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
             "/cars",
             "/cars/**",
             "/table/**",
-            "/table"
+            "/table",
+            "/rent",
+            "/rent/",
+            "/rent/**"
     };
 
 

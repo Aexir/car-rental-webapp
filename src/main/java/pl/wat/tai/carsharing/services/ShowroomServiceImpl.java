@@ -67,16 +67,19 @@ public class ShowroomServiceImpl implements ShowroomService {
     }
 
     @Override
+    @Transactional
     public List<ShowroomResponse> getAll() {
         return showroomRepository.findAll().stream().map(showroomMapper::mapToResponse).collect(Collectors.toList());
     }
 
     @Override
+    @Transactional
     public ShowroomResponse get(String name)  {
         return showroomMapper.mapToResponse(showroomRepository.findByName(name));
     }
 
     @Override
+    @Transactional
     public List<String> getShowroomNames() {
         List<String> newList = new ArrayList<>();
         for (Showroom showroom : showroomRepository.findAll()){
