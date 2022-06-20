@@ -31,7 +31,7 @@ public class RentServiceImpl implements RentService {
     @Transactional
     public List<RentResponse> getActiveRentals() {
         return rentRepository.findAll().stream()
-                .filter(x-> x.getRentStatus().equals("ACTIVE"))
+                .filter(x -> x.getRentStatus().equals("ACTIVE"))
                 .map(rentMapper::rentToResponse).collect(Collectors.toList());
     }
 
@@ -45,7 +45,7 @@ public class RentServiceImpl implements RentService {
     @Transactional
     public List<RentResponse> getClientRentals(long id) {
         return rentRepository.findAll().stream()
-                .filter(x-> x.getUser().getId() == id)
+                .filter(x -> x.getUser().getId() == id)
                 .map(rentMapper::rentToResponse).collect(Collectors.toList());
     }
 
@@ -53,7 +53,7 @@ public class RentServiceImpl implements RentService {
     @Transactional
     public List<RentResponse> getShowroomRentals(long id) {
         return rentRepository.findAll().stream()
-                .filter(x->x.getShowroom().getId() == id)
+                .filter(x -> x.getShowroom().getId() == id)
                 .map(rentMapper::rentToResponse).collect(Collectors.toList());
     }
 

@@ -1,9 +1,6 @@
 package pl.wat.tai.carsharing.data.response;
 
 import lombok.Data;
-import pl.wat.tai.carsharing.data.entities.Car;
-import pl.wat.tai.carsharing.data.entities.Showroom;
-import pl.wat.tai.carsharing.data.entities.User;
 
 import java.sql.Date;
 

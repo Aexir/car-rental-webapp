@@ -6,7 +6,7 @@ import pl.wat.tai.carsharing.data.response.UserResponse;
 
 @Component
 public class UserMapper {
-    public UserResponse toResponseMapper(User user){
+    public UserResponse toResponseMapper(User user) {
         UserResponse userResponse = new UserResponse();
         userResponse.setId(user.getId());
         userResponse.setRoles(user.getRoles());

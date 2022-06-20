@@ -1,6 +1,6 @@
 package pl.wat.tai.carsharing.data.response;
 
-import lombok.*;
+import lombok.Data;
 
 @Data
 public class CarResponse {

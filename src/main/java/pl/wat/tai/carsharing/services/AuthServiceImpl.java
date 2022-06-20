@@ -2,12 +2,7 @@ package pl.wat.tai.carsharing.services;
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -15,9 +10,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.wat.tai.carsharing.data.entities.enums.ERole;
+import pl.wat.tai.carsharing.data.entities.GmailCredentials;
 import pl.wat.tai.carsharing.data.entities.Role;
 import pl.wat.tai.carsharing.data.entities.User;
+import pl.wat.tai.carsharing.data.entities.VerificationToken;
+import pl.wat.tai.carsharing.data.entities.enums.ERole;
 import pl.wat.tai.carsharing.data.requests.LoginRequest;
 import pl.wat.tai.carsharing.data.requests.SignupRequest;
 import pl.wat.tai.carsharing.data.response.JwtResponse;
@@ -48,6 +45,7 @@ public class AuthServiceImpl implements AuthService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder encoder;
     private final TokenRepository tokenRepository;
+
 
     public ResponseEntity<?> logoutUser() {
 //        ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
@@ -102,52 +100,47 @@ public class AuthServiceImpl implements AuthService {
         user.setPhoneNumber(signUpRequest.getPhoneNumber());
 
 
-        Set<String> strRoles = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();
         Role accountStatus = roleRepository.findByName(ERole.ROLE_INACTIVE)
                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
         roles.add(accountStatus);
 
-        if (strRoles == null) {
-            Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-            roles.add(userRole);
-        } else {
-            strRoles.forEach(role -> {
-                switch (role) {
-                    case "admin" -> {
-                        Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(adminRole);
-                    }
-                    default -> {
-                        Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(userRole);
-                    }
-                }
-            });
-        }
+        Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found." + ERole.ROLE_USER));
+        roles.add(userRole);
+
 
         user.setRoles(roles);
-        userRepository.save(user);
 
         String token = UUID.randomUUID().toString();
 
         String confirmationUrl
-                = "http://localhost:8080/confirm?token=" + token;
+                = "http://localhost:8080/api/auth/confirm?token=" + token;
 
+
+        VerificationToken token1 = new VerificationToken();
+        token1.setToken(token);
+        token1.setUser(user);
+
+        tokenRepository.save(token1);
 
         GmailService gmailService = new GmailServiceImpl(GoogleNetHttpTransport.newTrustedTransport());
+
+//        String[] cred = gmailService.getAccessToken();
+//
+//
+//        String accessToken = cred[0];
+//        String refreshCode = cred[1];
+
         gmailService.setGmailCredentials(GmailCredentials.builder()
                 .userEmail("mcparkour1337@gmail.com")
                 .clientId("685363740170-us1mi13qqrff6ktunh3d67b0bsff4h7j.apps.googleusercontent.com")
                 .clientSecret("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")
-                .accessToken("ya29.a0ARrdaM8e34zK-L8iN6c5y59av-OnmBxt537YRMu1Hy7yibS9LQ4fyX48qxFJ9mDDCgOANUET73MPLtIEMprmF5c8N5uAm6mU16y4NAnDFb1ecsDDHXjyc707a0QTgNdNSOzkIUxf2UO4NYJC4XivY-gB-MOc")
-                .refreshToken("1//0cXq9ETZ4UH17CgYIARAAGAwSNwF-L9Irg62UoLKtsxlrRkPNgBxeZlCzTMCtaQMvXe-YhYFfwdOqQgJ-3NOEWaLB8FL2rKxbcnM")
+                .accessToken("ya29.A0ARrdaM85OjwVxoQ2LKjst0PfWqeBOQ5OJGevTLHR6MtuZ0kLor248e4x3BWN41hv01iPShz2MQ4ZcCWCGD-MtXY1aRVZMQrkx_5jn-wMB4tnguHlqtQDCSiNSfusSTX37Zdh7-K1k3BE5Hz7bAKxdJYB-ydXYUNnWUtBVEFTQVRBU0ZRRl91NjFWVzhSUjljMnZaRm9Sd3dGV29vb0ZqZw0163")
+                .refreshToken("1//0cRUPQ4-nIOOBCgYIARAAGAwSNwF-L9IrrMcyK4UeftbzixeiAuSZ7aZFNkyOdnsEpOPwHjSNPk05-xU87-x2nBPGj6YcAWJ-OBI")
                 .build());
 
-        gmailService.sendMessage("mcparkour1337@gmail.com", "Subject", "body text");
+        gmailService.sendMessage(user.getEmail(), "Confirm registration", "Confirm your account: " + confirmationUrl);
 
 //        SimpleMailMessage email = new SimpleMailMessage();
 //        email.setTo(user.getEmail());
@@ -155,11 +148,23 @@ public class AuthServiceImpl implements AuthService {
 //        email.setText("ACTIVATE YOUR ACCOUNT:   " + "\r\n" + "http://localhost:8080" + confirmationUrl);
 //        emailService.sendEmail(email);
 
+        userRepository.save(user);
+
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 
     @Override
     public ResponseEntity<?> confirmUser(String token) {
-        return null;
+
+        VerificationToken token1 = tokenRepository.findByToken(token);
+
+
+        User user = userRepository.getReferenceById(token1.getUser().getId());
+        user.getRoles().removeIf(x -> x.getName() == ERole.ROLE_INACTIVE);
+        user.getRoles().add(roleRepository.findByName(ERole.ROLE_ACTIVE).get());
+
+        userRepository.save(user);
+
+        return ResponseEntity.ok(new MessageResponse("SIEMA POTWIERDZAM"));
     }
 }

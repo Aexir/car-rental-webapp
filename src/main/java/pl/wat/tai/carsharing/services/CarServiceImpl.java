@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import pl.wat.tai.carsharing.data.entities.Car;
 import pl.wat.tai.carsharing.data.entities.CarImage;
-import pl.wat.tai.carsharing.data.entities.CarStatus;
 import pl.wat.tai.carsharing.data.entities.enums.ECarStatus;
 import pl.wat.tai.carsharing.data.entities.enums.ECarType;
 import pl.wat.tai.carsharing.data.entities.enums.EFuel;
@@ -19,7 +18,6 @@ import pl.wat.tai.carsharing.services.interfaces.CarService;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 
@@ -48,10 +46,10 @@ public class CarServiceImpl implements CarService {
         car.setPlate(plate);
         car.setVin(vin);
         car.setPrice(price);
-        if (file != null){
+        if (file != null) {
             CarImage carImage = new CarImage();
             try {
-                carImage.setName(brand+model);
+                carImage.setName(brand + model);
                 carImage.setContentType(file.getContentType());
                 carImage.setData(file.getBytes());
                 carImage.setSize(file.getSize());
@@ -59,7 +57,7 @@ public class CarServiceImpl implements CarService {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else  {
+        } else {
             car.setCarImage(carImageRepository.findAll().get(0));
         }
 
@@ -72,7 +70,6 @@ public class CarServiceImpl implements CarService {
     @Transactional
     public List<CarResponse> getAllCars() {
         return carRepository.findAll().stream().map(carMapper::carToResponse).collect(Collectors.toList());
-
     }
 
     @Override
@@ -103,7 +100,7 @@ public class CarServiceImpl implements CarService {
         if (file != null) {
             CarImage carImage = new CarImage();
             try {
-                carImage.setName(car.getBrand()+car.getModel());
+                carImage.setName(car.getBrand() + car.getModel());
                 carImage.setContentType(file.getContentType());
                 carImage.setData(file.getBytes());
                 carImage.setSize(file.getSize());

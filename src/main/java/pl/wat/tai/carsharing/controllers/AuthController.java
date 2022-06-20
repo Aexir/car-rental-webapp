@@ -3,12 +3,9 @@ package pl.wat.tai.carsharing.controllers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.*;
-
 import pl.wat.tai.carsharing.data.requests.LoginRequest;
 import pl.wat.tai.carsharing.data.requests.SignupRequest;
-
 import pl.wat.tai.carsharing.data.response.MessageResponse;
 import pl.wat.tai.carsharing.services.interfaces.AuthService;
 
@@ -49,6 +46,7 @@ public class AuthController {
     }
 
     @GetMapping("/confirm")
-    public ResponseEntity<?> confirm(@RequestParam("token") String token){ return authService.confirmUser(token);
+    public ResponseEntity<?> confirm(@RequestParam("token") String token) {
+        return authService.confirmUser(token);
     }
 }

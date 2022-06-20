@@ -9,11 +9,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.wat.tai.carsharing.data.entities.Role;
 import pl.wat.tai.carsharing.data.entities.User;
-import pl.wat.tai.carsharing.data.entities.enums.ERole;
 import pl.wat.tai.carsharing.data.requests.LoginRequest;
-import pl.wat.tai.carsharing.data.requests.SignupRequest;
 import pl.wat.tai.carsharing.data.requests.UpdatePasswordRequest;
 import pl.wat.tai.carsharing.data.requests.UpdateRequest;
 import pl.wat.tai.carsharing.data.response.JwtResponse;
@@ -25,9 +22,7 @@ import pl.wat.tai.carsharing.services.interfaces.AuthService;
 import pl.wat.tai.carsharing.services.interfaces.UserService;
 import pl.wat.tai.carsharing.utils.JwtUtils;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -51,8 +46,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity<?> updateUserInfo(UpdateRequest updateRequest) {
 
-        if (!updateRequest.getCurrentUsername().contains(updateRequest.getUsername()))
-        {
+        if (!updateRequest.getCurrentUsername().contains(updateRequest.getUsername())) {
             if (userRepository.existsByUsername(updateRequest.getUsername())) {
                 return ResponseEntity
                         .badRequest()
@@ -61,7 +55,7 @@ public class UserServiceImpl implements UserService {
         }
         User user = userRepository.findByUsername(updateRequest.getCurrentUsername()).get();
 
-        if (!user.getEmail().contains(updateRequest.getEmail())){
+        if (!user.getEmail().contains(updateRequest.getEmail())) {
             if (userRepository.existsByEmail(updateRequest.getEmail())) {
                 return ResponseEntity
                         .badRequest()
@@ -99,13 +93,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity<?> updateUserPassword(UpdatePasswordRequest updatePasswordRequest) {
         User user = userRepository.findByUsername(updatePasswordRequest.getUsername()).get();
-        if (!encoder.matches(updatePasswordRequest.getCurrentPassword(), user.getPassword())){
+        if (!encoder.matches(updatePasswordRequest.getCurrentPassword(), user.getPassword())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Password not match!"));
         }
 
-        if (encoder.matches(updatePasswordRequest.getNewPassword(), user.getPassword())){
+        if (encoder.matches(updatePasswordRequest.getNewPassword(), user.getPassword())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: New password contains old password!"));

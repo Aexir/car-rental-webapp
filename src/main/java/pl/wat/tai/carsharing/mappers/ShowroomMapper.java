@@ -2,16 +2,11 @@ package pl.wat.tai.carsharing.mappers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import pl.wat.tai.carsharing.data.entities.CarImage;
 import pl.wat.tai.carsharing.data.entities.Location;
 import pl.wat.tai.carsharing.data.entities.Showroom;
 import pl.wat.tai.carsharing.data.requests.ShowroomRequest;
-import pl.wat.tai.carsharing.data.response.CarImageResponse;
-import pl.wat.tai.carsharing.data.response.CarResponse;
 import pl.wat.tai.carsharing.data.response.ShowroomResponse;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -20,7 +15,7 @@ public class ShowroomMapper {
 
     private final CarMapper carMapper;
 
-    public Showroom requestToShowroom(ShowroomRequest showroomRequest){
+    public Showroom requestToShowroom(ShowroomRequest showroomRequest) {
         Showroom showroom = new Showroom();
         showroom.setName(showroomRequest.getName());
         Location location = new Location();
@@ -30,7 +25,7 @@ public class ShowroomMapper {
         return showroom;
     }
 
-    public ShowroomResponse mapToResponse(Showroom showroom){
+    public ShowroomResponse mapToResponse(Showroom showroom) {
         ShowroomResponse showroomResponse = new ShowroomResponse();
         showroomResponse.setId(showroom.getId());
         showroomResponse.setName(showroom.getName());

@@ -21,20 +21,20 @@ public class UserController {
 
     @GetMapping("/all")
     @PreAuthorize("hasRole('USER')")
-    public List<UserResponse> getAllUsers(){
+    public List<UserResponse> getAllUsers() {
         return userService.getAllUsers();
     }
 
 
-    @PostMapping(value = "/updateProfile", produces="application/json")
+    @PostMapping(value = "/updateProfile", produces = "application/json")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> updateUserInfo(@RequestBody UpdateRequest updateRequest){
+    public ResponseEntity<?> updateUserInfo(@RequestBody UpdateRequest updateRequest) {
         return userService.updateUserInfo(updateRequest);
     }
 
     @PostMapping("/updatePassword")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> updatePassword(@RequestBody UpdatePasswordRequest updatePasswordRequest){
+    public ResponseEntity<?> updatePassword(@RequestBody UpdatePasswordRequest updatePasswordRequest) {
         return userService.updateUserPassword(updatePasswordRequest);
     }
 

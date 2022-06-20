@@ -5,14 +5,11 @@ import org.springframework.stereotype.Component;
 import pl.wat.tai.carsharing.data.entities.Car;
 import pl.wat.tai.carsharing.data.entities.Rent;
 import pl.wat.tai.carsharing.data.entities.enums.ECarStatus;
-import pl.wat.tai.carsharing.data.requests.CarStatusRequest;
 import pl.wat.tai.carsharing.data.requests.EditRentRequest;
 import pl.wat.tai.carsharing.data.requests.RentRequest;
-import pl.wat.tai.carsharing.data.response.CarResponse;
 import pl.wat.tai.carsharing.data.response.RentResponse;
 import pl.wat.tai.carsharing.repositories.*;
 
-import java.rmi.Remote;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -25,7 +22,7 @@ public class RentMapper {
     private final UserRepository userRepository;
     private final RentRepository rentRepository;
 
-    public RentResponse rentToResponse(Rent rent){
+    public RentResponse rentToResponse(Rent rent) {
         RentResponse rentResponse = new RentResponse();
 
         rentResponse.setId(rent.getId());
@@ -49,7 +46,7 @@ public class RentMapper {
         return rentResponse;
     }
 
-    public Rent requestToRent(RentRequest rentRequest){
+    public Rent requestToRent(RentRequest rentRequest) {
         Rent rent = new Rent();
 
         /*    private long userId;
@@ -61,7 +58,7 @@ public class RentMapper {
         rent.setShowroom(showroomRepository.findByName(rentRequest.getShowroomName()));
         Car car = carRepository.getReferenceById(rentRequest.getCarId());
 
-        if (rentRequest.getEndDate().before(rentRequest.getStartDate())){
+        if (rentRequest.getEndDate().before(rentRequest.getStartDate())) {
             throw new RuntimeException("END DATE BEFORE START DATE");
         } else {
             rent.setStartDate(rentRequest.getStartDate());
@@ -69,7 +66,7 @@ public class RentMapper {
         }
         rent.setRentStatus("ACTIVE");
 
-        long diff = Math.abs(rent.getEndDate().getTime()-rent.getStartDate().getTime());
+        long diff = Math.abs(rent.getEndDate().getTime() - rent.getStartDate().getTime());
         long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
 
         float price = carRepository.getReferenceById(rentRequest.getCarId()).getPrice();

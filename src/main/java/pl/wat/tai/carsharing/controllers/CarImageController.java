@@ -54,12 +54,12 @@ public class CarImageController {
     }
 
     @GetMapping("/slider")
-    public List<CarSliderResponse> getCarSliderImages(){
+    public List<CarSliderResponse> getCarSliderImages() {
         return carImageService.getCarSliderImages();
     }
 
     @PostMapping("{id}")
-    public void removeFile(@PathVariable String id){
+    public void removeFile(@PathVariable String id) {
         carImageService.removeFile(id);
     }
 }

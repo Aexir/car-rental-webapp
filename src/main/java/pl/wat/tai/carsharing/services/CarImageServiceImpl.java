@@ -76,8 +76,8 @@ public class CarImageServiceImpl implements CarImageService {
 
 
         List<Car> cars = carRepository.findAll().stream().toList();
-        for (Car car: cars){
-            if (car.getCarImage() != null){
+        for (Car car : cars) {
+            if (car.getCarImage() != null) {
                 CarSliderResponse carSliderResponse = new CarSliderResponse();
                 carSliderResponse.setCarId(car.getId());
                 carSliderResponse.setBrand(car.getBrand());

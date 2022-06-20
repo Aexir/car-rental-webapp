@@ -32,16 +32,15 @@ public class TableServiceImpl implements TableService {
 
 
     @Transactional
-    public List<TableResponse> getAll(TableRequest tableRequest){
+    public List<TableResponse> getAll(TableRequest tableRequest) {
         List<TableResponse> tableResponses = new ArrayList<>();
 
         Showroom showroom = showroomRepository.findByName(tableRequest.getShowroom());
-        for (Car car : showroom.getCars()){
-            if (car.getCarStatus().getName() == ECarStatus.FREE)
-            {
+        for (Car car : showroom.getCars()) {
+            if (car.getCarStatus().getName() == ECarStatus.FREE) {
                 TableResponse tableResponse = new TableResponse();
                 CarImage carImage = car.getCarImage();
-                if (carImage != null){
+                if (carImage != null) {
                     String downloadURL = ServletUriComponentsBuilder.fromCurrentContextPath()
                             .path("/files/")
                             .path(carImage.getId())

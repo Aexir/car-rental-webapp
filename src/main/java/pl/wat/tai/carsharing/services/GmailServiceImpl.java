@@ -8,6 +8,15 @@ import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.Base64;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.model.Message;
+import com.google.common.net.HttpHeaders;
+import org.apache.http.Header;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+import pl.wat.tai.carsharing.data.entities.GmailCredentials;
 import pl.wat.tai.carsharing.services.interfaces.GmailService;
 
 import javax.mail.MessagingException;
@@ -24,11 +33,18 @@ public final class GmailServiceImpl implements GmailService {
 
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
 
+    private final CloseableHttpClient httpClient = HttpClients.createDefault();
+
     private final HttpTransport httpTransport;
     private GmailCredentials gmailCredentials;
 
     public GmailServiceImpl(HttpTransport httpTransport) {
         this.httpTransport = httpTransport;
+    }
+
+    @Override
+    public String[] getAccessToken() {
+        return new String[0];
     }
 
     @Override
@@ -82,4 +98,38 @@ public final class GmailServiceImpl implements GmailService {
                 .setAccessToken(gmailCredentials.getAccessToken())
                 .setRefreshToken(gmailCredentials.getRefreshToken());
     }
+
+    private String[] getAccesCodes() {
+        String[] codes = new String[]{"", ""};
+        HttpPost request = new HttpPost("https://oauth2.googleapis.com/token");
+
+        // add request headers
+        request.addHeader("client_id", "685363740170-ljhtm393deetj1187810inafi05hdu78.apps.googleusercontent.com");
+        request.addHeader("client_secret", "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");
+        request.addHeader("grant_type", "credentials");
+        request.addHeader("redirect_uri", "http://localhost/");
+        request.addHeader(HttpHeaders.USER_AGENT, "Googlebot");
+
+        try (CloseableHttpResponse response = httpClient.execute(request)) {
+
+            // Get HttpResponse Status
+            System.out.println(response.getStatusLine().toString());
+
+            HttpEntity entity = response.getEntity();
+            Header headers = entity.getContentType();
+            System.out.println(headers);
+
+            if (entity != null) {
+                // return it as a String
+                String result = EntityUtils.toString(entity);
+                System.out.println(result);
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return codes;
+
+    }
+
 }

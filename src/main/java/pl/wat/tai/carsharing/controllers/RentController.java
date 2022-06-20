@@ -18,32 +18,32 @@ public class RentController {
     private final RentService rentService;
 
     @GetMapping("/all")
-    public List<RentResponse> getAllRentals(){
+    public List<RentResponse> getAllRentals() {
         return rentService.getAllRentals();
     }
 
     @GetMapping("/active")
-    public List<RentResponse> getActiveRentals(){
+    public List<RentResponse> getActiveRentals() {
         return rentService.getActiveRentals();
     }
 
     @PostMapping("/create")
-    public void createRent(@RequestBody RentRequest rentRequest){
+    public void createRent(@RequestBody RentRequest rentRequest) {
         rentService.createRent(rentRequest);
     }
 
     @GetMapping("{id}")
-    public List<RentResponse> getClientRentals(@PathVariable long id){
+    public List<RentResponse> getClientRentals(@PathVariable long id) {
         return rentService.getClientRentals(id);
     }
 
     @GetMapping("/showroom/{id}")
-    public List<RentResponse> getShowroomRentals(@PathVariable long id){
+    public List<RentResponse> getShowroomRentals(@PathVariable long id) {
         return rentService.getShowroomRentals(id);
     }
 
     @PostMapping("/edit")
-    public void editRent(@RequestBody EditRentRequest editRentRequest){
+    public void editRent(@RequestBody EditRentRequest editRentRequest) {
         rentService.editRent(editRentRequest);
     }
 }

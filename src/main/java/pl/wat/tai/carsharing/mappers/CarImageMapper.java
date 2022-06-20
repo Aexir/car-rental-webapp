@@ -1,6 +1,5 @@
 package pl.wat.tai.carsharing.mappers;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.wat.tai.carsharing.data.entities.CarImage;

@@ -25,9 +25,36 @@ import pl.wat.tai.carsharing.services.UserDetailsServiceImpl;
         // jsr250Enabled = true,
         prePostEnabled = true)
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
+    private static final String[] AUTH_WHITELIST = {
+            // -- Swagger UI v2
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            // -- Swagger UI v3 (OpenAPI)
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/swagger-ui.html",
+            "/files",
+            "/files/",
+            "/files/**"
+            // other public endpoints of your API may be appended to this array
+            , "/showroom",
+            "/showroom/",
+            "/showroom/**",
+            "/cars",
+            "/cars/**",
+            "/table/**",
+            "/table",
+            "/rent",
+            "/rent/",
+            "/rent/**"
+    };
     @Autowired
     UserDetailsServiceImpl userDetailsService;
-
     @Autowired
     private AuthEntryPointJwt unauthorizedHandler;
 
@@ -51,36 +78,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-    private static final String[] AUTH_WHITELIST = {
-            // -- Swagger UI v2
-            "/v2/api-docs",
-            "/swagger-resources",
-            "/swagger-resources/**",
-            "/configuration/ui",
-            "/configuration/security",
-            "/swagger-ui.html",
-            "/webjars/**",
-            // -- Swagger UI v3 (OpenAPI)
-            "/v3/api-docs/**",
-            "/swagger-ui/**",
-            "/swagger-ui.html",
-            "/files",
-            "/files/",
-            "/files/**"
-            // other public endpoints of your API may be appended to this array
-            ,"/showroom",
-            "/showroom/",
-            "/showroom/**",
-            "/cars",
-            "/cars/**",
-            "/table/**",
-            "/table",
-            "/rent",
-            "/rent/",
-            "/rent/**"
-    };
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

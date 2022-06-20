@@ -6,4 +6,6 @@ import pl.wat.tai.carsharing.data.entities.VerificationToken;
 
 @Repository
 public interface TokenRepository extends JpaRepository<VerificationToken, Long> {
+    VerificationToken findByToken(String name);
+
 }

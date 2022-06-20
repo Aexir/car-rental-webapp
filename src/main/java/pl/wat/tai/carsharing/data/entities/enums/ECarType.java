@@ -4,7 +4,7 @@ public enum ECarType {
     ECONOMY,
     COMFORT,
     PREMIUM,
-    BUS, 
+    BUS,
     SUV,
     SEDAN,
     HATCHBACK,

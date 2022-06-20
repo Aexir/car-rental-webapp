@@ -19,28 +19,28 @@ public class CarController {
     private final CarService carService;
 
     @PostMapping("/add")
-    public void addNewCar(@RequestParam   String brand, @RequestParam String model,
-                          @RequestParam  int seats,
-                          @RequestParam   String transmission,
-                          @RequestParam  String fuel,
-                          @RequestParam   String carType,@RequestParam(name = "file", required = false) MultipartFile file,
-                          @RequestParam String engine, @RequestParam String plate, @RequestParam String vin, @RequestParam float price){
+    public void addNewCar(@RequestParam String brand, @RequestParam String model,
+                          @RequestParam int seats,
+                          @RequestParam String transmission,
+                          @RequestParam String fuel,
+                          @RequestParam String carType, @RequestParam(name = "file", required = false) MultipartFile file,
+                          @RequestParam String engine, @RequestParam String plate, @RequestParam String vin, @RequestParam float price) {
 //        carService.addNewCar(carRequest, file);
         carService.addNewCar(brand, model, seats, transmission, fuel, carType, file, engine, plate, vin, price);
     }
 
     @GetMapping("")
-    public AboutCarResponse aboutCar(@RequestParam long id){
+    public AboutCarResponse aboutCar(@RequestParam long id) {
         return carService.aboutCar(id);
     }
 
     @GetMapping("/all")
-    public List<CarResponse> getAllCars(){
+    public List<CarResponse> getAllCars() {
         return carService.getAllCars();
     }
 
     @PostMapping
-    public void setCarStatus(@RequestBody CarStatusRequest carStatusRequest){
+    public void setCarStatus(@RequestBody CarStatusRequest carStatusRequest) {
         carService.setCarStatus(carStatusRequest);
     }
 
@@ -49,12 +49,12 @@ public class CarController {
                         @RequestParam String carStatus,
                         @RequestParam MultipartFile file,
                         @RequestParam String plate,
-                        @RequestParam Float priceRequestBody){
+                        @RequestParam Float priceRequestBody) {
         carService.editCar(id, carStatus, file, plate, priceRequestBody);
     }
 
     @PostMapping("/remove/{id}")
-    public void removeCar(@PathVariable long id){
+    public void removeCar(@PathVariable long id) {
         carService.removeCar(id);
     }
 }

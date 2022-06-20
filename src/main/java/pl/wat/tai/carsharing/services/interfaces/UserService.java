@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface UserService {
     List<UserResponse> getAllUsers();
+
     ResponseEntity<?> updateUserInfo(UpdateRequest updateRequest);
+
     ResponseEntity<?> updateUserPassword(UpdatePasswordRequest updatePasswordRequest);
 }

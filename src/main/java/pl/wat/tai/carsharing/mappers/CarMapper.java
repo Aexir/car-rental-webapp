@@ -3,7 +3,6 @@ package pl.wat.tai.carsharing.mappers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import pl.wat.tai.carsharing.data.entities.Car;
-import pl.wat.tai.carsharing.data.entities.enums.EFuel;
 import pl.wat.tai.carsharing.data.response.AboutCarResponse;
 import pl.wat.tai.carsharing.data.response.CarResponse;
 import pl.wat.tai.carsharing.repositories.FuelTypesRepository;
@@ -15,7 +14,7 @@ public class CarMapper {
     private final FuelTypesRepository fuelTypesRepository;
     private final CarImageMapper carImageMapper;
 
-    public AboutCarResponse carToAbout(Car car){
+    public AboutCarResponse carToAbout(Car car) {
         AboutCarResponse aboutCarResponse = new AboutCarResponse();
         aboutCarResponse.setCarId(car.getId());
         aboutCarResponse.setUrl(carImageMapper.mapToFileResponse(car.getCarImage()).getUrl());
@@ -32,7 +31,7 @@ public class CarMapper {
     }
 
 
-    public CarResponse carToResponse(Car car){
+    public CarResponse carToResponse(Car car) {
         CarResponse carResponse = new CarResponse();
         carResponse.setId(car.getId());
         carResponse.setBrand(car.getBrand());

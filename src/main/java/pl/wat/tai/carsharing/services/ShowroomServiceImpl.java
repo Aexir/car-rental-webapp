@@ -1,11 +1,7 @@
 package pl.wat.tai.carsharing.services;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.crossstore.ChangeSetPersister;
-import org.springframework.data.repository.core.RepositoryCreationException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import pl.wat.tai.carsharing.data.entities.Car;
 import pl.wat.tai.carsharing.data.entities.Showroom;
 import pl.wat.tai.carsharing.data.requests.ShowroomRequest;
 import pl.wat.tai.carsharing.data.response.ShowroomResponse;
@@ -31,11 +27,10 @@ public class ShowroomServiceImpl implements ShowroomService {
 
     @Override
     public void addShowroom(ShowroomRequest showroomRequest) {
-        if (showroomRepository.findByName(showroomRequest.getName()) == null)
-        {
+        if (showroomRepository.findByName(showroomRequest.getName()) == null) {
             showroomRepository.save(showroomMapper.requestToShowroom(showroomRequest));
         } else {
-            throw new IllegalArgumentException("Showroom named "+ showroomRequest.getName() + " already exists.");
+            throw new IllegalArgumentException("Showroom named " + showroomRequest.getName() + " already exists.");
         }
     }
 
@@ -48,7 +43,7 @@ public class ShowroomServiceImpl implements ShowroomService {
     @Override
     @Transactional
     public void addCarToShowroom(String name, long id) {
-        if (showroomRepository.findByName(name)!= null){
+        if (showroomRepository.findByName(name) != null) {
             Showroom showroom = showroomRepository.findByName(name);
 
             showroom.getCars().add(carRepository.getReferenceById(id));
@@ -59,7 +54,7 @@ public class ShowroomServiceImpl implements ShowroomService {
     @Override
     @Transactional
     public void removeCarFromShowroom(String name, long id) {
-        if (showroomRepository.findByName(name) != null){
+        if (showroomRepository.findByName(name) != null) {
             Showroom showroom = showroomRepository.findByName(name);
             showroom.getCars().removeIf(car -> car.getId() == id);
             showroomRepository.save(showroom);
@@ -74,7 +69,7 @@ public class ShowroomServiceImpl implements ShowroomService {
 
     @Override
     @Transactional
-    public ShowroomResponse get(String name)  {
+    public ShowroomResponse get(String name) {
         return showroomMapper.mapToResponse(showroomRepository.findByName(name));
     }
 
@@ -82,7 +77,7 @@ public class ShowroomServiceImpl implements ShowroomService {
     @Transactional
     public List<String> getShowroomNames() {
         List<String> newList = new ArrayList<>();
-        for (Showroom showroom : showroomRepository.findAll()){
+        for (Showroom showroom : showroomRepository.findAll()) {
             newList.add(showroom.getName());
         }
         return newList;
