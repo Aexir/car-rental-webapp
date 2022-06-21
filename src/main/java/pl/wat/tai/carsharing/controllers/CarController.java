@@ -34,6 +34,11 @@ public class CarController {
         return carService.aboutCar(id);
     }
 
+    @GetMapping("/unique")
+    public List<AboutCarResponse> getUnique(){
+        return carService.getUnique();
+    }
+
     @GetMapping("/all")
     public List<CarResponse> getAllCars() {
         return carService.getAllCars();

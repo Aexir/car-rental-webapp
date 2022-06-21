@@ -43,12 +43,12 @@ public class ShowroomServiceImpl implements ShowroomService {
 
     @Override
     @Transactional
-    public void removeCarFromShowroom(long id){
+    public void removeCarFromShowroom(long id) {
         List<Showroom> showrooms = showroomRepository.findAll();
         String s = "";
-        for (Showroom showroom: showrooms){
+        for (Showroom showroom : showrooms) {
             if (showroom.getCars().contains(carRepository.getReferenceById(id))) {
-                s=showroom.getName();
+                s = showroom.getName();
             }
         }
         removeCarFromShowroom(s, id);

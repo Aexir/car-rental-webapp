@@ -11,13 +11,17 @@ import pl.wat.tai.carsharing.data.entities.enums.EFuel;
 import pl.wat.tai.carsharing.data.requests.CarStatusRequest;
 import pl.wat.tai.carsharing.data.response.AboutCarResponse;
 import pl.wat.tai.carsharing.data.response.CarResponse;
+import pl.wat.tai.carsharing.mappers.CarImageMapper;
 import pl.wat.tai.carsharing.mappers.CarMapper;
 import pl.wat.tai.carsharing.repositories.*;
 import pl.wat.tai.carsharing.services.interfaces.CarService;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -32,6 +36,7 @@ public class CarServiceImpl implements CarService {
     private final FuelTypesRepository fuelTypesRepository;
     private final CarImageServiceImpl carImageService;
     private final CarMapper carMapper;
+    private final CarImageMapper carImageMapper;
 
     @Override
     @Transactional
@@ -88,6 +93,37 @@ public class CarServiceImpl implements CarService {
     @Override
     public void removeCar(long id) {
         carRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public List<AboutCarResponse> getUnique() {
+        List<AboutCarResponse> aboutCarResponses = new ArrayList<>();
+
+        List<Car> cars = carRepository.findAll();
+        for (Car car : cars){
+            AboutCarResponse aboutCarResponse = new AboutCarResponse();
+            aboutCarResponse.setCarId(car.getId());
+            aboutCarResponse.setBrand(car.getBrand());
+            aboutCarResponse.setModel(car.getModel());
+            aboutCarResponse.setEngine(car.getEngine());
+            aboutCarResponse.setPrice(car.getPrice());
+            boolean xd = false;
+            for (AboutCarResponse aboutCarResponse1 : aboutCarResponses){
+                if (aboutCarResponse1.equals(aboutCarResponse)){
+                    xd = true;
+                }
+            }
+            if (!xd) {
+
+            }
+        }
+
+        for (AboutCarResponse aboutCarResponse: aboutCarResponses){
+            aboutCarResponse.setUrl(carImageMapper.mapToFileResponse(carRepository.getReferenceById(aboutCarResponse.getCarId()).getCarImage()).getUrl());
+        }
+
+        return aboutCarResponses;
     }
 
     @Override

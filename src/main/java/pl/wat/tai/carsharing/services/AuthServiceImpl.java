@@ -2,7 +2,6 @@ package pl.wat.tai.carsharing.services;
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -75,7 +74,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public ResponseEntity<?> registerUser(SignupRequest signUpRequest) throws GeneralSecurityException, IOException, MessagingException {
-        if (signUpRequest.getUsername().isEmpty()){
+        if (signUpRequest.getUsername().isEmpty()) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Username cannot be null!"));
@@ -175,7 +174,7 @@ public class AuthServiceImpl implements AuthService {
 
         VerificationToken token1 = tokenRepository.findByToken(token);
 
-        if (new Date().after(token1.getExipiryDate())){
+        if (new Date().after(token1.getExipiryDate())) {
             return ResponseEntity.ok(new MessageResponse("Your activation token expired"));
         }
         User user = userRepository.getReferenceById(token1.getUser().getId());

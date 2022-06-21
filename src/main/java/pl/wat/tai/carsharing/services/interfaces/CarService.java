@@ -20,4 +20,6 @@ public interface CarService {
     void setCarStatus(CarStatusRequest carStatusRequest);
 
     void removeCar(long id);
+
+    List<AboutCarResponse> getUnique();
 }

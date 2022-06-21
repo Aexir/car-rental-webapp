@@ -1,7 +1,6 @@
 package pl.wat.tai.carsharing.services;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,7 +22,6 @@ import pl.wat.tai.carsharing.services.interfaces.AuthService;
 import pl.wat.tai.carsharing.services.interfaces.UserService;
 import pl.wat.tai.carsharing.utils.JwtUtils;
 
-import javax.validation.constraints.Email;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,7 +53,7 @@ public class UserServiceImpl implements UserService {
                     .body(new MessageResponse("Error: Password not match!"));
         }
 
-        if (updateRequest.getUsername().isEmpty()){
+        if (updateRequest.getUsername().isEmpty()) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Username cannot be null!"));
@@ -68,13 +66,6 @@ public class UserServiceImpl implements UserService {
                         .badRequest()
                         .body(new MessageResponse("Error: Username is already taken!"));
             }
-        }
-        String EMAIL_PATTERN = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-
-        if (!updateRequest.getPassword().matches(EMAIL_PATTERN)) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Email is not valid!"));
         }
 
         if (!user.getEmail().contains(updateRequest.getEmail())) {
@@ -115,10 +106,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity<?> updateUserPassword(UpdatePasswordRequest updatePasswordRequest) {
         User user = userRepository.findByUsername(updatePasswordRequest.getUsername()).get();
-        if (updatePasswordRequest.getCurrentPassword().isEmpty()){
+        if (updatePasswordRequest.getCurrentPassword().isEmpty()) {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: Input your current password!"));        }
+                    .body(new MessageResponse("Error: Input your current password!"));
+        }
 
         if (!encoder.matches(updatePasswordRequest.getCurrentPassword(), user.getPassword())) {
             return ResponseEntity
@@ -131,7 +123,7 @@ public class UserServiceImpl implements UserService {
                     .badRequest()
                     .body(new MessageResponse("Error: New password contains old password!"));
         }
-        if (updatePasswordRequest.getNewPassword().length() <6 || updatePasswordRequest.getNewPassword().length() >= 40) {
+        if (updatePasswordRequest.getNewPassword().length() < 6 || updatePasswordRequest.getNewPassword().length() >= 40) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Password length between 6 and 40!"));

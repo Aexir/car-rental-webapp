@@ -33,7 +33,7 @@ public class ShowroomController {
     }
 
 
-        @GetMapping("/all")
+    @GetMapping("/all")
     public List<ShowroomResponse> getAll() {
         return showroomService.getAll();
     }
