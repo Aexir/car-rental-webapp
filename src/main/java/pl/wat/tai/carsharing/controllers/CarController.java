@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/cars")
-
+@CrossOrigin
 public class CarController {
 
     private final CarService carService;
@@ -53,7 +53,7 @@ public class CarController {
         carService.editCar(id, carStatus, file, plate, priceRequestBody);
     }
 
-    @PostMapping("/remove/{id}")
+    @DeleteMapping("/remove/{id}")
     public void removeCar(@PathVariable long id) {
         carService.removeCar(id);
     }

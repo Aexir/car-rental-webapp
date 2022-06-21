@@ -58,7 +58,7 @@ public class CarImageController {
         return carImageService.getCarSliderImages();
     }
 
-    @PostMapping("{id}")
+    @DeleteMapping("{id}")
     public void removeFile(@PathVariable String id) {
         carImageService.removeFile(id);
     }

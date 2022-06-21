@@ -9,6 +9,7 @@ import pl.wat.tai.carsharing.data.requests.UpdateRequest;
 import pl.wat.tai.carsharing.data.response.UserResponse;
 import pl.wat.tai.carsharing.services.interfaces.UserService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -28,13 +29,13 @@ public class UserController {
 
     @PostMapping(value = "/updateProfile", produces = "application/json")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> updateUserInfo(@RequestBody UpdateRequest updateRequest) {
+    public ResponseEntity<?> updateUserInfo(@Valid @RequestBody UpdateRequest updateRequest) {
         return userService.updateUserInfo(updateRequest);
     }
 
     @PostMapping("/updatePassword")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> updatePassword(@RequestBody UpdatePasswordRequest updatePasswordRequest) {
+    public ResponseEntity<?> updatePassword(@Valid @RequestBody UpdatePasswordRequest updatePasswordRequest) {
         return userService.updateUserPassword(updatePasswordRequest);
     }
 

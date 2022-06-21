@@ -2,6 +2,7 @@ package pl.wat.tai.carsharing.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.wat.tai.carsharing.data.entities.Car;
 import pl.wat.tai.carsharing.data.entities.Showroom;
 import pl.wat.tai.carsharing.data.requests.ShowroomRequest;
 import pl.wat.tai.carsharing.data.response.ShowroomResponse;
@@ -42,11 +43,25 @@ public class ShowroomServiceImpl implements ShowroomService {
 
     @Override
     @Transactional
+    public void removeCarFromShowroom(long id){
+        List<Showroom> showrooms = showroomRepository.findAll();
+        String s = "";
+        for (Showroom showroom: showrooms){
+            if (showroom.getCars().contains(carRepository.getReferenceById(id))) {
+                s=showroom.getName();
+            }
+        }
+        removeCarFromShowroom(s, id);
+    }
+
+    @Override
+    @Transactional
     public void addCarToShowroom(String name, long id) {
         if (showroomRepository.findByName(name) != null) {
-            Showroom showroom = showroomRepository.findByName(name);
 
-            showroom.getCars().add(carRepository.getReferenceById(id));
+            Showroom showroom = showroomRepository.findByName(name);
+            Car car = carRepository.getReferenceById(id);
+            showroom.getCars().add(car);
             showroomRepository.save(showroom);
         }
     }

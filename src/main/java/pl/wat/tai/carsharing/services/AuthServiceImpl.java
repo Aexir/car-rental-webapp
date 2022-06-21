@@ -2,6 +2,7 @@ package pl.wat.tai.carsharing.services;
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,10 +30,7 @@ import pl.wat.tai.carsharing.utils.JwtUtils;
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,7 +43,8 @@ public class AuthServiceImpl implements AuthService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder encoder;
     private final TokenRepository tokenRepository;
-
+    private final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{6,40}$";
+    private final String EMAIL_PATTERN = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
 
     public ResponseEntity<?> logoutUser() {
 //        ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
@@ -76,10 +75,28 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public ResponseEntity<?> registerUser(SignupRequest signUpRequest) throws GeneralSecurityException, IOException, MessagingException {
+        if (signUpRequest.getUsername().isEmpty()){
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Username cannot be null!"));
+        }
+
+        if (!signUpRequest.getPassword().matches(PASSWORD_PATTERN)) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Password must contain lowercase letter, uppercase letter, number and special character and between 6 and 40"));
+        }
+
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Username is already taken!"));
+        }
+
+        if (!signUpRequest.getPassword().matches(EMAIL_PATTERN)) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Email is not valid!"));
         }
 
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
@@ -88,7 +105,7 @@ public class AuthServiceImpl implements AuthService {
                     .body(new MessageResponse("Error: Email is already in use!"));
         }
 
-        // Create new user's account
+
         User user = new User();
         user.setUsername(signUpRequest.getUsername());
         user.setEmail(signUpRequest.getEmail());
@@ -136,8 +153,8 @@ public class AuthServiceImpl implements AuthService {
                 .userEmail("mcparkour1337@gmail.com")
                 .clientId("685363740170-us1mi13qqrff6ktunh3d67b0bsff4h7j.apps.googleusercontent.com")
                 .clientSecret("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")
-                .accessToken("ya29.A0ARrdaM85OjwVxoQ2LKjst0PfWqeBOQ5OJGevTLHR6MtuZ0kLor248e4x3BWN41hv01iPShz2MQ4ZcCWCGD-MtXY1aRVZMQrkx_5jn-wMB4tnguHlqtQDCSiNSfusSTX37Zdh7-K1k3BE5Hz7bAKxdJYB-ydXYUNnWUtBVEFTQVRBU0ZRRl91NjFWVzhSUjljMnZaRm9Sd3dGV29vb0ZqZw0163")
-                .refreshToken("1//0cRUPQ4-nIOOBCgYIARAAGAwSNwF-L9IrrMcyK4UeftbzixeiAuSZ7aZFNkyOdnsEpOPwHjSNPk05-xU87-x2nBPGj6YcAWJ-OBI")
+                .accessToken("ya29.A0ARrdaM-i1hBLyDNupW6IwJuZ88tLIAJ2gE_zA0mJIEbvpbWCrBYocAhtweipHzX6WY8f57k3NdfHLWml7WF0zEO9W5to9UGNGCG4jfI9b414v7LQscag0vjOaCdQSLkHR9xFWQFNVKjBkHINb9xRlYiMyyp7YUNnWUtBVEFTQVRBU0ZRRl91NjFWVEZJS3hKVXAzeGZ3X0lmdjJ2Y0JUdw0163")
+                .refreshToken("1//04ihoZrjsEJUMCgYIARAAGAQSNwF-L9IrNM09avf-L1H5JoFyh4ZtzKuXOaQYQgmws2V7zkBFCx7kmOgFEKXYRz0io2WcXT_Eb_E")
                 .build());
 
         gmailService.sendMessage(user.getEmail(), "Confirm registration", "Confirm your account: " + confirmationUrl);
@@ -158,13 +175,15 @@ public class AuthServiceImpl implements AuthService {
 
         VerificationToken token1 = tokenRepository.findByToken(token);
 
-
+        if (new Date().after(token1.getExipiryDate())){
+            return ResponseEntity.ok(new MessageResponse("Your activation token expired"));
+        }
         User user = userRepository.getReferenceById(token1.getUser().getId());
         user.getRoles().removeIf(x -> x.getName() == ERole.ROLE_INACTIVE);
         user.getRoles().add(roleRepository.findByName(ERole.ROLE_ACTIVE).get());
 
         userRepository.save(user);
-
+        tokenRepository.delete(token1);
         return ResponseEntity.ok(new MessageResponse("SIEMA POTWIERDZAM"));
     }
 }

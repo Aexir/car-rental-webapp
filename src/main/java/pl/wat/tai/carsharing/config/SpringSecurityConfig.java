@@ -51,7 +51,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
             "/table",
             "/rent",
             "/rent/",
-            "/rent/**"
+            "/rent/**",
+            "/api/email/",
+            "/api/email"
     };
     @Autowired
     UserDetailsServiceImpl userDetailsService;

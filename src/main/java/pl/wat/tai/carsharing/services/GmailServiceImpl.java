@@ -1,8 +1,13 @@
 package pl.wat.tai.carsharing.services;
 
 import com.google.api.client.auth.oauth2.Credential;
+import com.google.api.client.auth.oauth2.TokenResponse;
+import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.api.client.googleapis.auth.oauth2.GoogleRefreshTokenRequest;
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.Base64;
@@ -16,6 +21,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.springframework.scheduling.annotation.Async;
+import pl.wat.tai.carsharing.DemoApplication;
 import pl.wat.tai.carsharing.data.entities.GmailCredentials;
 import pl.wat.tai.carsharing.services.interfaces.GmailService;
 
@@ -23,8 +30,9 @@ import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.io.*;
+import java.security.GeneralSecurityException;
+import java.util.ArrayList;
 import java.util.Properties;
 
 public final class GmailServiceImpl implements GmailService {
@@ -89,6 +97,17 @@ public final class GmailServiceImpl implements GmailService {
                 .setRaw(Base64.encodeBase64URLSafeString(buffer.toByteArray()));
     }
 
+    public String getNewToken(String refreshToken, String clientId, String clientSecret) throws IOException {
+        ArrayList<String> scopes = new ArrayList<>();
+
+        scopes.add("https://www.googleapis.com/auth/gmail.send");
+
+        TokenResponse tokenResponse = new GoogleRefreshTokenRequest(new NetHttpTransport(), new GsonFactory(),
+                refreshToken, clientId, clientSecret).setScopes(scopes).setGrantType("refresh_token").execute();
+
+        return tokenResponse.getAccessToken();
+    }
+
     private Credential authorize() {
         return new GoogleCredential.Builder()
                 .setTransport(httpTransport)
@@ -97,39 +116,6 @@ public final class GmailServiceImpl implements GmailService {
                 .build()
                 .setAccessToken(gmailCredentials.getAccessToken())
                 .setRefreshToken(gmailCredentials.getRefreshToken());
-    }
-
-    private String[] getAccesCodes() {
-        String[] codes = new String[]{"", ""};
-        HttpPost request = new HttpPost("https://oauth2.googleapis.com/token");
-
-        // add request headers
-        request.addHeader("client_id", "685363740170-ljhtm393deetj1187810inafi05hdu78.apps.googleusercontent.com");
-        request.addHeader("client_secret", "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");
-        request.addHeader("grant_type", "credentials");
-        request.addHeader("redirect_uri", "http://localhost/");
-        request.addHeader(HttpHeaders.USER_AGENT, "Googlebot");
-
-        try (CloseableHttpResponse response = httpClient.execute(request)) {
-
-            // Get HttpResponse Status
-            System.out.println(response.getStatusLine().toString());
-
-            HttpEntity entity = response.getEntity();
-            Header headers = entity.getContentType();
-            System.out.println(headers);
-
-            if (entity != null) {
-                // return it as a String
-                String result = EntityUtils.toString(entity);
-                System.out.println(result);
-            }
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return codes;
-
     }
 
 }

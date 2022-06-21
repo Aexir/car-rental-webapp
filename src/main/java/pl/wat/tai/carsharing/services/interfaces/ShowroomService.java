@@ -21,4 +21,6 @@ public interface ShowroomService {
     ShowroomResponse get(@PathVariable String name);
 
     List<String> getShowroomNames();
+
+    void removeCarFromShowroom(long id);
 }
