@@ -92,12 +92,6 @@ public class AuthServiceImpl implements AuthService {
                     .body(new MessageResponse("Error: Username is already taken!"));
         }
 
-        if (!signUpRequest.getPassword().matches(EMAIL_PATTERN)) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Email is not valid!"));
-        }
-
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
             return ResponseEntity
                     .badRequest()
