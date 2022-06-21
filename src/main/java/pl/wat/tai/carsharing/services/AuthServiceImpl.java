@@ -12,6 +12,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 import pl.wat.tai.carsharing.data.entities.GmailCredentials;
 import pl.wat.tai.carsharing.data.entities.Role;
 import pl.wat.tai.carsharing.data.entities.User;
@@ -29,7 +31,9 @@ import pl.wat.tai.carsharing.services.interfaces.GmailService;
 import pl.wat.tai.carsharing.utils.JwtUtils;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URI;
 import java.security.GeneralSecurityException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -181,8 +185,8 @@ public class AuthServiceImpl implements AuthService {
         //tokenRepository.delete(token1);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Location", "localhost:3000");
-        return new ResponseEntity(headers, HttpStatus.FOUND);
+
+        return ResponseEntity.status(HttpStatus.FOUND).location(URI.create("https://localhost:3000/")).build();
 
        // return ResponseEntity.ok(new MessageResponse("SIEMA POTWIERDZAM"));
     }
