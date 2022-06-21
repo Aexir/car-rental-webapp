@@ -2,6 +2,8 @@ package pl.wat.tai.carsharing.services;
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -176,7 +178,12 @@ public class AuthServiceImpl implements AuthService {
         user.getRoles().add(roleRepository.findByName(ERole.ROLE_ACTIVE).get());
 
         userRepository.save(user);
-        tokenRepository.delete(token1);
-        return ResponseEntity.ok(new MessageResponse("SIEMA POTWIERDZAM"));
+        //tokenRepository.delete(token1);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Location", "localhost:3000");
+        return new ResponseEntity(headers, HttpStatus.FOUND);
+
+       // return ResponseEntity.ok(new MessageResponse("SIEMA POTWIERDZAM"));
     }
 }
