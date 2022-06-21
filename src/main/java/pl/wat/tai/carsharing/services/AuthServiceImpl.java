@@ -186,7 +186,7 @@ public class AuthServiceImpl implements AuthService {
 
         HttpHeaders headers = new HttpHeaders();
 
-        return ResponseEntity.status(HttpStatus.FOUND).location(URI.create("https://localhost:3000/")).build();
+        return ResponseEntity.status(HttpStatus.FOUND).location(URI.create("http://localhost:3000/")).build();
 
        // return ResponseEntity.ok(new MessageResponse("SIEMA POTWIERDZAM"));
     }
