@@ -158,11 +158,6 @@ public class AuthServiceImpl implements AuthService {
 
         gmailService.sendMessage(user.getEmail(), "Confirm registration", "Confirm your account: " + confirmationUrl);
 
-//        SimpleMailMessage email = new SimpleMailMessage();
-//        email.setTo(user.getEmail());
-//        email.setSubject("ACCOUNT ACTIVATION");
-//        email.setText("ACTIVATE YOUR ACCOUNT:   " + "\r\n" + "http://localhost:8080" + confirmationUrl);
-//        emailService.sendEmail(email);
 
         userRepository.save(user);
 
@@ -182,12 +177,7 @@ public class AuthServiceImpl implements AuthService {
         user.getRoles().add(roleRepository.findByName(ERole.ROLE_ACTIVE).get());
 
         userRepository.save(user);
-        //tokenRepository.delete(token1);
-
         HttpHeaders headers = new HttpHeaders();
-
         return ResponseEntity.status(HttpStatus.FOUND).location(URI.create("http://localhost:3000/login")).build();
-
-       // return ResponseEntity.ok(new MessageResponse("SIEMA POTWIERDZAM"));
     }
 }
