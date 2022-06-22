@@ -27,6 +27,7 @@ class PayUAuthConfig {
             if (!headers.containsKey("Content-Type")) {
                 headers.add("Content-Type", "application/json");
             }
+            headers.add("Access-Control-Allow-Origin", "http://localhost:3000");
             return clientHttpRequestExecution.execute(httpRequest, bytes);
         }));
 

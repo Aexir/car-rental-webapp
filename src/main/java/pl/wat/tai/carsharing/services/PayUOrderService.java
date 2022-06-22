@@ -1,9 +1,7 @@
-package pl.wat.tai.carsharing.payu.service;
+package pl.wat.tai.carsharing.services;
 
 import javax.annotation.Resource;
-import javax.management.StringValueExp;
 import javax.servlet.http.HttpServletRequest;
-import javax.transaction.Transactional;
 
 
 import lombok.RequiredArgsConstructor;
@@ -22,7 +20,6 @@ import pl.wat.tai.carsharing.data.entities.Car;
 import pl.wat.tai.carsharing.data.entities.User;
 import pl.wat.tai.carsharing.data.requests.OrderCreateRequest;
 import pl.wat.tai.carsharing.data.requests.RentRequest;
-import pl.wat.tai.carsharing.data.response.CarResponse;
 import pl.wat.tai.carsharing.data.response.OrderCreateResponse;
 import pl.wat.tai.carsharing.payu.Product;
 import pl.wat.tai.carsharing.repositories.CarRepository;
@@ -30,7 +27,6 @@ import pl.wat.tai.carsharing.repositories.UserRepository;
 import pl.wat.tai.carsharing.services.interfaces.RentService;
 
 import java.net.URI;
-import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Objects;
@@ -73,15 +69,15 @@ public class PayUOrderService {
         //OrderCreateRequest orderRequest = prepareOrderCreateRequest(totalAmount, productName, unitPrice, email, request);
         OrderCreateRequest orderRequest = prepareOrderCreateRequest(String.valueOf((int)totalAmount), productName, String.valueOf(unitPrice), email, request);
 
-        OrderCreateResponse orderResponse = order(orderRequest);
+        ResponseEntity<OrderCreateResponse> orderResponse = order(orderRequest);
 
-        if (!orderResponse.getStatus().getStatusCode().equals(STATUS_CODE_SUCCESS)) {
+        if (orderResponse.getBody().getStatus().getStatusCode().equals(STATUS_CODE_SUCCESS)) {
             throw new RuntimeException("Payment failed! ");
         }
         System.out.println((rentRequest));
-        rentService.createRent(rentRequest);
+        //rentService.createRent(rentRequest);
 
-        return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(orderResponse.getRedirectUri())).build();
+        return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(orderResponse.getBody().getRedirectUri())).build();
     }
 
     private OrderCreateRequest prepareOrderCreateRequest(String totalAmount, String productName, String unitPrice, String email,  final HttpServletRequest request) {
@@ -108,11 +104,13 @@ public class PayUOrderService {
     }
 
     @SneakyThrows
-    public OrderCreateResponse order(final OrderCreateRequest orderCreateRequest) {
+    public ResponseEntity<OrderCreateResponse> order(final OrderCreateRequest orderCreateRequest) {
         orderCreateRequest.setContinueUrl("http://localhost:3000/myrentals");
+
+
         final ResponseEntity<String> jsonResponse = restTemplate.postForEntity(payUConfiguration.getOrderUrl(), orderCreateRequest, String.class);
 
         log.info("Response as String = {}", jsonResponse.getBody());
-        return objectMapper.readValue(jsonResponse.getBody(), OrderCreateResponse.class);
+        return ResponseEntity.ok().body(objectMapper.readValue(jsonResponse.getBody(), OrderCreateResponse.class));
     }
 }
