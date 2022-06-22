@@ -27,7 +27,7 @@ import java.util.Properties;
 
 public final class GmailServiceImpl implements GmailService {
 
-    private static final String APPLICATION_NAME = "YOUR_APP_NAME";
+    private static final String APPLICATION_NAME = "CAR RENTAL";
 
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
 

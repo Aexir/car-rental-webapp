@@ -1,9 +1,12 @@
 package pl.wat.tai.carsharing.services;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import pl.wat.tai.carsharing.data.requests.EditRentRequest;
 import pl.wat.tai.carsharing.data.requests.RentRequest;
+import pl.wat.tai.carsharing.data.response.MessageResponse;
 import pl.wat.tai.carsharing.data.response.RentResponse;
 import pl.wat.tai.carsharing.mappers.RentMapper;
 import pl.wat.tai.carsharing.repositories.RentRepository;
@@ -59,7 +62,8 @@ public class RentServiceImpl implements RentService {
 
     @Override
     @Transactional
-    public void editRent(EditRentRequest editRentRequest) {
-        rentRepository.save(rentMapper.editRequestToRent(editRentRequest));
+    public ResponseEntity<?> editRent(long rentId) {
+        rentRepository.save(rentMapper.editRequestToRent(rentId));
+        return ResponseEntity.status(HttpStatus.OK).body(new MessageResponse("OK"));
     }
 }

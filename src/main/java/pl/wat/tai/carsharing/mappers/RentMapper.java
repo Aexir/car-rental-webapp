@@ -9,6 +9,7 @@ import pl.wat.tai.carsharing.data.requests.RentRequest;
 import pl.wat.tai.carsharing.data.response.RentResponse;
 import pl.wat.tai.carsharing.repositories.*;
 
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -77,10 +78,11 @@ public class RentMapper {
         return rent;
     }
 
-    public Rent editRequestToRent(EditRentRequest editRentRequest) {
-        Rent rent = rentRepository.getReferenceById(editRentRequest.getRentId());
-        if (!editRentRequest.getRentStatus().isEmpty()) rent.setRentStatus(editRentRequest.getRentStatus());
-
+    public Rent editRequestToRent(long rentId) {
+        Rent rent = rentRepository.getReferenceById(rentId);
+        if (Objects.equals(rent.getRentStatus(), "ACTIVE")){
+            rent.setRentStatus("ENDED");
+        }
         return rent;
     }
 

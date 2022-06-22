@@ -1,6 +1,7 @@
 package pl.wat.tai.carsharing.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.wat.tai.carsharing.data.requests.EditRentRequest;
@@ -50,7 +51,7 @@ public class RentController {
 
     @PostMapping("/edit")
     //@PreAuthorize("hasRole('ADMIN')")
-    public void editRent(@RequestBody EditRentRequest editRentRequest) {
-        rentService.editRent(editRentRequest);
+    public ResponseEntity<?> editRent(@RequestParam long id) {
+        return rentService.editRent(id);
     }
 }

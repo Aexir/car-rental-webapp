@@ -1,5 +1,6 @@
 package pl.wat.tai.carsharing.services.interfaces;
 
+import org.springframework.http.ResponseEntity;
 import pl.wat.tai.carsharing.data.requests.EditRentRequest;
 import pl.wat.tai.carsharing.data.requests.RentRequest;
 import pl.wat.tai.carsharing.data.response.RentResponse;
@@ -17,5 +18,5 @@ public interface RentService {
 
     List<RentResponse> getShowroomRentals(long id);
 
-    void editRent(EditRentRequest editRentRequest);
+    ResponseEntity<?> editRent(long rentId);
 }
