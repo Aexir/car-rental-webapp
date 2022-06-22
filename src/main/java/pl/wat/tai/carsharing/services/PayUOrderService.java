@@ -4,12 +4,15 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 
+import io.swagger.models.Response;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,12 +20,15 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import pl.wat.tai.carsharing.config.PayUConfigurationProperties;
 import pl.wat.tai.carsharing.data.entities.Car;
+import pl.wat.tai.carsharing.data.entities.Payment;
 import pl.wat.tai.carsharing.data.entities.User;
 import pl.wat.tai.carsharing.data.requests.OrderCreateRequest;
 import pl.wat.tai.carsharing.data.requests.RentRequest;
+import pl.wat.tai.carsharing.data.response.MessageResponse;
 import pl.wat.tai.carsharing.data.response.OrderCreateResponse;
 import pl.wat.tai.carsharing.payu.Product;
 import pl.wat.tai.carsharing.repositories.CarRepository;
+import pl.wat.tai.carsharing.repositories.PaymentRepository;
 import pl.wat.tai.carsharing.repositories.UserRepository;
 import pl.wat.tai.carsharing.services.interfaces.RentService;
 
@@ -30,6 +36,7 @@ import java.net.URI;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import static pl.wat.tai.carsharing.data.response.OrderCreateResponse.Status.STATUS_CODE_SUCCESS;
@@ -44,6 +51,7 @@ public class PayUOrderService {
     private final CarRepository carRepository;
     private final UserRepository userRepository;
     private final RentService rentService;
+    private final PaymentRepository paymentRepository;
 
     @Resource(name = "payuApiRestTemplate")
     private RestTemplate restTemplate;
@@ -69,16 +77,27 @@ public class PayUOrderService {
         //OrderCreateRequest orderRequest = prepareOrderCreateRequest(totalAmount, productName, unitPrice, email, request);
         OrderCreateRequest orderRequest = prepareOrderCreateRequest(String.valueOf((int)totalAmount), productName, String.valueOf(unitPrice), email, request);
 
-        ResponseEntity<OrderCreateResponse> orderResponse = order(orderRequest);
+        OrderCreateResponse orderResponse = order(orderRequest);
 
-        if (orderResponse.getBody().getStatus().getStatusCode().equals(STATUS_CODE_SUCCESS)) {
-            throw new RuntimeException("Payment failed! ");
+        if (!orderResponse.getStatus().getStatusCode().equals(STATUS_CODE_SUCCESS)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Payment failed! "));
         }
+        Payment p = new Payment();
+        p.setUserId(rentRequest.getUserId());
+        p.setOrderId(orderResponse.getOrderId());
+        p.setCarId(rentRequest.getCarId());
+        p.setEndDate(rentRequest.getEndDate());
+        p.setStartDate(rentRequest.getStartDate());
+        p.setEndShowroomName(rentRequest.getEndShowroomName());
+        p.setShowroomName(rentRequest.getShowroomName());
+        paymentRepository.save(p);
         System.out.println((rentRequest));
         //rentService.createRent(rentRequest);
 
-        return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(orderResponse.getBody().getRedirectUri())).build();
+        return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(orderResponse.getRedirectUri())).build();
     }
+
+
 
     private OrderCreateRequest prepareOrderCreateRequest(String totalAmount, String productName, String unitPrice, String email,  final HttpServletRequest request) {
         String unitPrice1 = Objects.nonNull(totalAmount)
@@ -103,14 +122,16 @@ public class PayUOrderService {
                         )).email(email).locale("pl").build();
     }
 
+
+
     @SneakyThrows
-    public ResponseEntity<OrderCreateResponse> order(final OrderCreateRequest orderCreateRequest) {
-        orderCreateRequest.setContinueUrl("http://localhost:3000/myrentals");
+    public OrderCreateResponse order(final OrderCreateRequest orderCreateRequest) {
+        orderCreateRequest.setContinueUrl("http://localhost:3000/payu-callback");
 
 
         final ResponseEntity<String> jsonResponse = restTemplate.postForEntity(payUConfiguration.getOrderUrl(), orderCreateRequest, String.class);
 
         log.info("Response as String = {}", jsonResponse.getBody());
-        return ResponseEntity.ok().body(objectMapper.readValue(jsonResponse.getBody(), OrderCreateResponse.class));
+        return objectMapper.readValue(jsonResponse.getBody(), OrderCreateResponse.class);
     }
 }

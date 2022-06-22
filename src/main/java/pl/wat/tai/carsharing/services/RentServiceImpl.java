@@ -63,6 +63,9 @@ public class RentServiceImpl implements RentService {
     @Override
     @Transactional
     public ResponseEntity<?> editRent(long rentId) {
+        if (rentMapper.editRequestToRent(rentId)== null){
+            return ResponseEntity.badRequest().body(new MessageResponse("FAILED TO COS TAM"));
+        }
         rentRepository.save(rentMapper.editRequestToRent(rentId));
         return ResponseEntity.status(HttpStatus.OK).body(new MessageResponse("OK"));
     }

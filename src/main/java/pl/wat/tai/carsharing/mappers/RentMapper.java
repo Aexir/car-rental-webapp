@@ -82,8 +82,12 @@ public class RentMapper {
         Rent rent = rentRepository.getReferenceById(rentId);
         if (Objects.equals(rent.getRentStatus(), "ACTIVE")){
             rent.setRentStatus("ENDED");
+            rent.getCar().setCarStatus("FREE");
+            rent.getEndShowroom().getCars().add(rent.getCar());
+            return rent;
+
         }
-        return rent;
+        return null;
     }
 
 
