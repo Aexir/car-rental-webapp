@@ -2,7 +2,9 @@ package pl.wat.tai.carsharing.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import pl.wat.tai.carsharing.data.entities.Car;
 import pl.wat.tai.carsharing.data.requests.ShowroomRequest;
+import pl.wat.tai.carsharing.data.response.CarResponse;
 import pl.wat.tai.carsharing.data.response.ShowroomResponse;
 import pl.wat.tai.carsharing.services.interfaces.ShowroomService;
 
@@ -24,6 +26,11 @@ public class ShowroomController {
 
     @DeleteMapping("/remove/{name}")
     public void removeShowroom(@PathVariable String name) {
+        if (!showroomService.get(name).getCarList().isEmpty()){
+            for (CarResponse car : showroomService.get(name).getCarList()){
+                showroomService.removeCarFromShowroom(name, car.getId());
+            }
+        }
         showroomService.removeShowroom(name);
     }
 

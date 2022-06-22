@@ -36,6 +36,7 @@ public class ShowroomServiceImpl implements ShowroomService {
     }
 
     @Override
+    @Transactional
     public void removeShowroom(String name) {
         Showroom showroom = showroomRepository.findByName(name);
         showroomRepository.delete(showroom);
