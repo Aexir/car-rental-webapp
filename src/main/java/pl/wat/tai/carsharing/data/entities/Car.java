@@ -41,11 +41,5 @@ public class Car {
             joinColumns = @JoinColumn(name = "car_id"),
             inverseJoinColumns = @JoinColumn(name = "image_id"))
     private CarImage carImage;
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "car_carStatus",
-            joinColumns = @JoinColumn(name = "car_id"),
-            inverseJoinColumns = @JoinColumn(name = "car_status_id"))
-    private CarStatus carStatus;
-
+    private String carStatus;
 }

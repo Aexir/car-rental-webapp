@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import pl.wat.tai.carsharing.data.entities.Car;
 import pl.wat.tai.carsharing.data.entities.CarImage;
-import pl.wat.tai.carsharing.data.entities.enums.ECarStatus;
 import pl.wat.tai.carsharing.data.entities.enums.ECarType;
 import pl.wat.tai.carsharing.data.entities.enums.EFuel;
 import pl.wat.tai.carsharing.data.requests.CarStatusRequest;
@@ -28,7 +27,6 @@ public class CarServiceImpl implements CarService {
 
     private final CarRepository carRepository;
     private final CarImageRepository carImageRepository;
-    private final CarStatusRepository carStatusRepository;
     private final CarTypesRepository carTypesRepository;
     private final FuelTypesRepository fuelTypesRepository;
     private final CarImageServiceImpl carImageService;
@@ -39,7 +37,7 @@ public class CarServiceImpl implements CarService {
     @Transactional
     public void addNewCar(String brand, String model, int seats, String transmission, String fuel, String carType, MultipartFile file, String engine, String plate, String vin, float price) {
         Car car = new Car();
-        car.setCarStatus(carStatusRepository.findByName(ECarStatus.FREE));
+        car.setCarStatus("FREE");
         car.setCarType(carTypesRepository.findByName(ECarType.valueOf(carType.toUpperCase())));
         car.setBrand(brand);
         car.setFuel(fuelTypesRepository.findByName(EFuel.valueOf(fuel.toUpperCase())));
@@ -83,7 +81,7 @@ public class CarServiceImpl implements CarService {
     @Override
     public void setCarStatus(CarStatusRequest carStatusRequest) {
         Car car = carRepository.getReferenceById(carStatusRequest.getId());
-        car.setCarStatus(carStatusRepository.findByName(ECarStatus.valueOf(carStatusRequest.getStatus())));
+        car.setCarStatus(carStatusRequest.getStatus());
         carRepository.save(car);
     }
 
@@ -133,7 +131,7 @@ public class CarServiceImpl implements CarService {
     @Transactional
     public void editCar(long id, String carStatus, MultipartFile file, String plate, Float price) {
         Car car = carRepository.getReferenceById(id);
-        if (!carStatus.isEmpty()) car.setCarStatus(carStatusRepository.findByName(ECarStatus.valueOf(carStatus)));
+        if (!carStatus.isEmpty()) car.setCarStatus(carStatus);
         if (!plate.isEmpty()) car.setPlate(plate);
         if (!price.isNaN() && price > 0) car.setPrice(price);
         if (file != null) {

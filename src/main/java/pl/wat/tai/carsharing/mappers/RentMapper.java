@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import pl.wat.tai.carsharing.data.entities.Car;
 import pl.wat.tai.carsharing.data.entities.Rent;
-import pl.wat.tai.carsharing.data.entities.enums.ECarStatus;
 import pl.wat.tai.carsharing.data.requests.EditRentRequest;
 import pl.wat.tai.carsharing.data.requests.RentRequest;
 import pl.wat.tai.carsharing.data.response.RentResponse;
@@ -18,7 +17,6 @@ public class RentMapper {
 
     private final ShowroomRepository showroomRepository;
     private final CarRepository carRepository;
-    private final CarStatusRepository carStatusRepository;
     private final UserRepository userRepository;
     private final RentRepository rentRepository;
 
@@ -72,7 +70,7 @@ public class RentMapper {
         float price = carRepository.getReferenceById(rentRequest.getCarId()).getPrice();
         rent.setPrice(days * price);
         rent.setUser(userRepository.getReferenceById(rentRequest.getUserId()));
-        car.setCarStatus(carStatusRepository.findByName(ECarStatus.TAKEN));
+        car.setCarStatus("TAKEN");
         rent.setCar(car);
         carRepository.save(car);
 
@@ -81,11 +79,10 @@ public class RentMapper {
 
     public Rent editRequestToRent(EditRentRequest editRentRequest) {
         Rent rent = rentRepository.getReferenceById(editRentRequest.getRentId());
-        rent.setStartDate(editRentRequest.getStartDate());
-        rent.setEndDate(editRentRequest.getEndDate());
-        if (editRentRequest.getPrice() > 0) rent.setPrice(editRentRequest.getPrice());
         if (!editRentRequest.getRentStatus().isEmpty()) rent.setRentStatus(editRentRequest.getRentStatus());
 
         return rent;
     }
+
+
 }

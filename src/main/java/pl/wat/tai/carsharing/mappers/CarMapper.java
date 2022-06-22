@@ -46,7 +46,7 @@ public class CarMapper {
         carResponse.setFuel(car.getFuel().getName().toString());
         carResponse.setCarType(car.getCarType().getName().toString());
         carResponse.setCarImageUrl(carImageMapper.mapToFileResponse(car.getCarImage()).getUrl());
-        carResponse.setCarStatus(car.getCarStatus().getName().toString());
+        carResponse.setCarStatus(car.getCarStatus());
 
         return carResponse;
     }

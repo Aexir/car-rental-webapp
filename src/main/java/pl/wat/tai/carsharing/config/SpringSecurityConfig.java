@@ -53,7 +53,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
             "/rent/",
             "/rent/**",
             "/api/email/",
-            "/api/email"
+            "/api/email",
+            "/api/payu",
+            "/api/payu-callback",
     };
     @Autowired
     UserDetailsServiceImpl userDetailsService;
