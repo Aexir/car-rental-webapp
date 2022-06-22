@@ -22,7 +22,7 @@ import static pl.wat.tai.carsharing.data.response.OrderCreateResponse.Status.STA
 
 @Slf4j
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class PayUController {
