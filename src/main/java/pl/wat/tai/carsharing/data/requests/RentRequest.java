@@ -10,6 +10,7 @@ import java.sql.Date;
 public class RentRequest {
     private long userId;
     private String showroomName;
+    private String endShowroomName;
     private long carId;
     private Date startDate;
     private Date endDate;

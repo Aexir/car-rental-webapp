@@ -21,7 +21,8 @@ public class Rent {
     private Showroom showroom;
     @ManyToOne(fetch = FetchType.LAZY)
     private Car car;
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Showroom endShowroom;
     private Date startDate;
     private Date endDate;
 
