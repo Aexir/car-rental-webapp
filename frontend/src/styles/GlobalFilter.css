@@ -1,0 +1,31 @@
+.search-container {
+    display: block;
+    width: 300px;
+    margin-bottom: 15px;
+    padding-left: 15px;
+}
+
+.search-container label {
+    display: block;
+    color: #666;
+    font-size: 12px;
+    margin-bottom: 5px;
+    transition: 0.4s;
+}
+
+.search-container:focus-within label {
+    color: rgb(255, 136, 0);
+}
+
+.search-container input {
+    display: block;
+    width: 100%;
+    padding: 10px 15px;
+    background-color: #F8F8F8;
+    border-radius: 8px;
+    transition: 0.4s;
+}
+
+.search-container input:focus {
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);;
+}
