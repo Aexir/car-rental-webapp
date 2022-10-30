@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import '../styles/PricingPage.css'
 
 export default function PricingPage() {
@@ -30,23 +30,25 @@ export default function PricingPage() {
     }, []);
     return (
         <div>
-        <div className="info-section">
+            <div className="info-section">
                 <h1>Pricing Page</h1>
-                <p> Presented prices apply to the specific car <br/> and represent the cost of renting a car for one day. </p>
+                <p> Presented prices apply to the specific car <br/> and represent the cost of renting a car for one
+                    day. </p>
             </div>
-        <div id="cards">
-            {
-            cars.map((slide,index)=>(
-            <div id="card" key={index} onClick={() => clickEvent({ slide })}>
-                <div className="card-image" style={{ backgroundImage: `url(${slide.url})`, backgroundSize: 'cover' }}> </div>
-                <p className="card-brand">{slide.brand} {slide.model}</p>
-                    <p className="card-engine">{slide.engine}</p>
-                    <hr/>
-                    <p className="card-price">Price per day: {slide.price} PLN</p>
+            <div id="cards">
+                {
+                    cars.map((slide, index) => (
+                        <div id="card" key={index} onClick={() => clickEvent({slide})}>
+                            <div className="card-image"
+                                 style={{backgroundImage: `url(${slide.url})`, backgroundSize: 'cover'}}></div>
+                            <p className="card-brand">{slide.brand} {slide.model}</p>
+                            <p className="card-engine">{slide.engine}</p>
+                            <hr/>
+                            <p className="card-price">Price per day: {slide.price} PLN</p>
 
+                        </div>
+                    ))}
             </div>
-            ))}
-            </div>
-            </div>
+        </div>
     )
 }

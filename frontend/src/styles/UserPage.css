@@ -33,7 +33,7 @@ input, label, button {
     /* display: block;
     position: relative;
     padding: 20px; */
-    height:50%;
+    height: 50%;
     display: flex;
     align-items: flex-start;
     justify-content: center;
@@ -113,7 +113,7 @@ input, label, button {
 
 .form-submit:hover {
     background-color: rgb(250, 152, 25);
-} 
+}
 
 .manage-button {
     position: absolute;

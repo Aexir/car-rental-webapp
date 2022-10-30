@@ -1,11 +1,10 @@
-import React, { useCallback, useState, useEffect, useMemo } from 'react';
+import React, {useMemo} from 'react';
 import {useNavigate} from "react-router-dom"
-import axios from 'axios'
 import "../styles/Table.css"
-import { useTable, useSortBy, useGlobalFilter } from 'react-table';
+import {useGlobalFilter, useSortBy, useTable} from 'react-table';
 import GlobalFilter from './GlobalFilter';
 
-const SearchTable = ({ data, passRentCarId }) => {
+const SearchTable = ({data, passRentCarId}) => {
     let navigate = useNavigate();
 
     // const keys = ['url', 'showroom', 'brand', 'model', 'type', 'seats', 'transmission', 'fuel', 'id']
@@ -15,60 +14,61 @@ const SearchTable = ({ data, passRentCarId }) => {
 
     const columns = useMemo(
         () => [
-        {
-            Header: "Image",
-            accessor: "url",
-            Cell: ({value}) => <img src={value} className="img"/>
-        },
-        {
-            Header: "Showroom",
-            accessor: "showroom"
-        },
-        {
-            Header: "Car ID",
-            accessor: "id"
-        },
-        {
-            Header: "Brand",
-            accessor: "brand"
-        },
-        {
-            Header: "Model",
-            accessor: "model"
-        },
-        {
-            Header: "Type",
-            accessor: "type"
-        },
-        {
-            Header: "Seats",
-            accessor: "seats"
-        },
-        {
-            Header: "Transmission",
-            accessor: "transmission"
-        },
-        {
-            Header: "Fuel",
-            accessor: "fuel"
-        },
-    ], [])
+            {
+                Header: "Image",
+                accessor: "url",
+                Cell: ({value}) => <img src={value} className="img"/>
+            },
+            {
+                Header: "Showroom",
+                accessor: "showroom"
+            },
+            {
+                Header: "Car ID",
+                accessor: "id"
+            },
+            {
+                Header: "Brand",
+                accessor: "brand"
+            },
+            {
+                Header: "Model",
+                accessor: "model"
+            },
+            {
+                Header: "Type",
+                accessor: "type"
+            },
+            {
+                Header: "Seats",
+                accessor: "seats"
+            },
+            {
+                Header: "Transmission",
+                accessor: "transmission"
+            },
+            {
+                Header: "Fuel",
+                accessor: "fuel"
+            },
+        ], [])
 
     const tableInstance = useTable(
-        { columns, data },
+        {columns, data},
         useGlobalFilter,
         useSortBy,
     )
 
-    const { 
-        getTableProps, 
-        getTableBodyProps, 
-        headerGroups, 
-        rows, 
-        prepareRow, 
-        preGlobalFilteredRows, 
-        setGlobalFilter, 
-        state } = tableInstance
+    const {
+        getTableProps,
+        getTableBodyProps,
+        headerGroups,
+        rows,
+        prepareRow,
+        preGlobalFilteredRows,
+        setGlobalFilter,
+        state
+    } = tableInstance
 
     const rentHandler = (props) => {
         console.log("search:" + props.row.values.id)
@@ -78,9 +78,10 @@ const SearchTable = ({ data, passRentCarId }) => {
 
     return (
         <div className="table-container">
-        <GlobalFilter preGlobalFilteredRows={preGlobalFilteredRows} setGlobalFilter={setGlobalFilter} globalFilter={state.globalFilter}/>
-        <table className="table" {...getTableProps()}> 
-            <thead className="thead">
+            <GlobalFilter preGlobalFilteredRows={preGlobalFilteredRows} setGlobalFilter={setGlobalFilter}
+                          globalFilter={state.globalFilter}/>
+            <table className="table" {...getTableProps()}>
+                <thead className="thead">
                 {headerGroups.map((headerGroup) => (
                     <tr className="trHead" {...headerGroup.getHeaderGroupProps()}>
                         {headerGroup.headers.map((column) => (
@@ -91,23 +92,23 @@ const SearchTable = ({ data, passRentCarId }) => {
                         ))}
                     </tr>
                 ))}
-            </thead>
-            <tbody className="tbody" {...getTableBodyProps()}>
+                </thead>
+                <tbody className="tbody" {...getTableBodyProps()}>
                 {rows.map((row, idx) => {
                     prepareRow(row)
-                    return ( 
-                    <tr className="trBody" onClick={() => rentHandler({ row })} {...row.getRowProps()}>
-                        {row.cells.map((cell, idx) => (
-                            <td className="td" {...cell.getCellProps()}>
-                                {cell.render("Cell")}
-                            </td>
-                        ))}
-                    </tr>
+                    return (
+                        <tr className="trBody" onClick={() => rentHandler({row})} {...row.getRowProps()}>
+                            {row.cells.map((cell, idx) => (
+                                <td className="td" {...cell.getCellProps()}>
+                                    {cell.render("Cell")}
+                                </td>
+                            ))}
+                        </tr>
                     )
                 })}
-            </tbody>
-        </table>
-    </div>
+                </tbody>
+            </table>
+        </div>
 
     )
 }

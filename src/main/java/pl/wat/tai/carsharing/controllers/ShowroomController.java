@@ -1,8 +1,14 @@
 package pl.wat.tai.carsharing.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
-import pl.wat.tai.carsharing.data.entities.Car;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import pl.wat.tai.carsharing.data.requests.ShowroomRequest;
 import pl.wat.tai.carsharing.data.response.CarResponse;
 import pl.wat.tai.carsharing.data.response.ShowroomResponse;
@@ -26,8 +32,8 @@ public class ShowroomController {
 
     @DeleteMapping("/remove/{name}")
     public void removeShowroom(@PathVariable String name) {
-        if (!showroomService.get(name).getCarList().isEmpty()){
-            for (CarResponse car : showroomService.get(name).getCarList()){
+        if (!showroomService.get(name).getCarList().isEmpty()) {
+            for (CarResponse car : showroomService.get(name).getCarList()) {
                 showroomService.removeCarFromShowroom(name, car.getId());
             }
         }

@@ -5,6 +5,7 @@
     color: white;
     background-color: #006697;
 }
+
 .card-image {
     width: 100%;
     height: 220px;
@@ -12,14 +13,16 @@
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }
+
 #cards {
     width: 100%;
     /*height: 305px;*/
     display: inline-block;
     padding: 30px 5% 10px 5%;
     font-size: x-large;
-   /* text-align: center;*/
+    /* text-align: center;*/
 }
+
 #card {
     width: 400px;
     height: 380px;
@@ -34,17 +37,21 @@
     /*float: left;*/
     /*user-select: none;*/
 }
+
 .card-brand {
     font-weight: bold;
     text-align: center;
-/*    margin-left: 20px;
-*/    color: #006697;
+    /*    margin-left: 20px;
+    */
+    color: #006697;
 }
-.card-engine{
+
+.card-engine {
     font-weight: bold;
     text-align: left;
     margin-left: 40px;
 }
+
 #card hr {
     margin: auto 10px;
     color: #006697;
@@ -52,6 +59,7 @@
     border: 1px solid #006697;
     /* border: 1.5px solid rgb(150, 150, 150);*/
 }
+
 .card-price {
     text-align: left;
     margin-left: 40px;

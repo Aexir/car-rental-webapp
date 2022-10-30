@@ -1,8 +1,11 @@
 package pl.wat.tai.carsharing.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
-import pl.wat.tai.carsharing.data.requests.TableRequest;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import pl.wat.tai.carsharing.data.response.TableResponse;
 import pl.wat.tai.carsharing.services.interfaces.TableService;
 
@@ -16,8 +19,8 @@ public class TableController {
 
     private final TableService tableService;
 
-    @PostMapping()
-    public List<TableResponse> getAll(@RequestBody TableRequest tableRequest) {
-        return tableService.getAll(tableRequest);
+    @GetMapping
+    public List<TableResponse> getAll(@RequestParam String name) {
+        return tableService.getAll(name);
     }
 }

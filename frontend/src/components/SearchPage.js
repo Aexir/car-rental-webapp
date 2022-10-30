@@ -1,10 +1,10 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {useNavigate} from "react-router-dom"
 import SearchTable from './SearchTable';
 import axios from 'axios'
 import SearchForm from './SearchForm';
 
-export default function SearchPage({ passRentCarId }) {
+export default function SearchPage({passRentCarId}) {
     const [data, setData] = useState([])
 
     let navigate = useNavigate();
@@ -22,7 +22,7 @@ export default function SearchPage({ passRentCarId }) {
                 const data = response.data
                 setData(data)
             }
-            
+
             console.log("data: " + data)
             return response.data;
 
@@ -33,7 +33,7 @@ export default function SearchPage({ passRentCarId }) {
 
     useEffect(() => {
         const showroom = JSON.parse(localStorage.getItem("showroom"));
-        if(showroom) {
+        if (showroom) {
             // console.log("storage: " + showroom)
             fetchDataHandler(showroom)
         }

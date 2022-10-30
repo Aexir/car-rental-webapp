@@ -12,9 +12,9 @@
     scroll-behavior: smooth;
 }
 
-    #slider::-webkit-scrollbar {
-        display: none;
-    }
+#slider::-webkit-scrollbar {
+    display: none;
+}
 
 #main-slider-container {
     display: flex;
@@ -63,9 +63,9 @@
     right: 0;
 }
 
-    .slider-icon.left:hover, .slider-icon.right:hover {
-        opacity: 1;
-    }
+.slider-icon.left:hover, .slider-icon.right:hover {
+    opacity: 1;
+}
 
 .slider-card {
     width: 320px;

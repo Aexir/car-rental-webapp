@@ -13,7 +13,7 @@ export default function RegisterForm() {
     const [password, setPassword] = useState("");
     const [successful, setSuccessful] = useState(false);
     const [message, setMessage] = useState("");
-    
+
     let navigate = useNavigate();
 
 
@@ -98,7 +98,8 @@ export default function RegisterForm() {
                     </div>
                     <div className="form-group">
                         <label htmlFor="password">Password:</label>
-                        <input type="password" name="passworc" id="password" onChange={onChangePassword} value={password}/>
+                        <input type="password" name="passworc" id="password" onChange={onChangePassword}
+                               value={password}/>
                     </div>
                     <button className="form-submit" onClick={submitHandler}>Register</button>
                 </div>

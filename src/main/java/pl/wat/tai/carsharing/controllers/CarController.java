@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/cars")
+@RequestMapping("/api/cars")
 @CrossOrigin
 public class CarController {
 
@@ -35,7 +35,7 @@ public class CarController {
     }
 
     @GetMapping("/unique")
-    public List<AboutCarResponse> getUnique(){
+    public List<AboutCarResponse> getUnique() {
         return carService.getUnique();
     }
 
@@ -49,7 +49,7 @@ public class CarController {
         carService.setCarStatus(carStatusRequest);
     }
 
-    @PostMapping("/edit")
+    @PutMapping("/edit")
     public void editCar(@RequestParam long id,
                         @RequestParam String carStatus,
                         @RequestParam MultipartFile file,

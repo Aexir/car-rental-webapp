@@ -1,6 +1,5 @@
-import React from 'react';
+import React, {useState} from 'react';
 import axios from "axios";
-import { useCallback, useState, useEffect } from 'react';
 import InfoPopup from './InfoPopup.js'
 import '../styles/AboutPage.css'
 
@@ -34,7 +33,6 @@ export default function AboutPage() {
     }
 
 
-
     const onChangeMail = (e) => {
         const mail = e.target.value;
         setMail(mail);
@@ -47,7 +45,7 @@ export default function AboutPage() {
         const message = e.target.value;
         setMessage(message);
     };
-    return(
+    return (
         <div>
             <InfoPopup trigger={popupTrigger} setTrigger={setPopupTrigger}>
                 <h3>{popupMessage}</h3>
@@ -58,32 +56,32 @@ export default function AboutPage() {
                 <p>uisque id maximus leo. Quisque faucibus libero sit amet enim elementum, a pretium ex congue.</p>
             </div>
             <div className="more-section">
-            <div className="contact-section">
-                <h1>Contact</h1>
-                <h3>Hotline</h3>
-                <p>333 666 999</p>
-                <h3>E-mail</h3>
-                <p>przykladowy@gmail.com</p>
-                <h3>Office</h3>
-                <p> 123 456 789 or test@gmail.com</p>
-                <h3>Technical issues</h3>
-                <p>111 222 333 or 444 555 666</p>
-            </div>
-            <div className="mail-section">
-                <form onSubmit={submitMessageHandler}>
+                <div className="contact-section">
+                    <h1>Contact</h1>
+                    <h3>Hotline</h3>
+                    <p>333 666 999</p>
+                    <h3>E-mail</h3>
+                    <p>przykladowy@gmail.com</p>
+                    <h3>Office</h3>
+                    <p> 123 456 789 or test@gmail.com</p>
+                    <h3>Technical issues</h3>
+                    <p>111 222 333 or 444 555 666</p>
+                </div>
+                <div className="mail-section">
+                    <form onSubmit={submitMessageHandler}>
                         <label>E-mail</label>
                         <input name="Mail" id="Mail" type="email" value={mail}
-                            onChange={onChangeMail} />
+                               onChange={onChangeMail}/>
                         <label>Name</label>
                         <input name="Name" id="Name" value={name}
-                            onChange={onChangeName} />
+                               onChange={onChangeName}/>
                         <label>Message</label>
                         <textarea maxLength="255" name="Message" id="Message" value={message}
-                            onChange={onChangeMessage} />
-                    <input value="Send" type="submit"/>
+                                  onChange={onChangeMessage}/>
+                        <input value="Send" type="submit"/>
                     </form>
                 </div>
-                </div>
+            </div>
         </div>
     )
 }

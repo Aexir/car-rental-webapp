@@ -2,9 +2,15 @@ package pl.wat.tai.carsharing.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
-import pl.wat.tai.carsharing.data.requests.EditRentRequest;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import pl.wat.tai.carsharing.data.requests.RentRequest;
 import pl.wat.tai.carsharing.data.response.RentResponse;
 import pl.wat.tai.carsharing.services.interfaces.RentService;
@@ -12,7 +18,7 @@ import pl.wat.tai.carsharing.services.interfaces.RentService;
 import java.util.List;
 
 @CrossOrigin
-@RequestMapping("/rent")
+@RequestMapping("/api/rent")
 @RequiredArgsConstructor
 @RestController
 public class RentController {
@@ -49,7 +55,7 @@ public class RentController {
         return rentService.getShowroomRentals(id);
     }
 
-    @PostMapping("/edit")
+    @PutMapping("/edit")
     //@PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> editRent(@RequestParam long id) {
         return rentService.editRent(id);

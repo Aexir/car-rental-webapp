@@ -4,7 +4,6 @@ import StartPage from './components/StartPage';
 import LoginForm from './components/LoginForm';
 import RegisterForm from './components/RegisterForm';
 import UserPage from './components/UserPage';
-import HomePage from './components/HomePage';
 import SearchPage from './components/SearchPage';
 import PricingPage from './components/PricingPage';
 import AboutPage from './components/AboutPage';
@@ -17,7 +16,6 @@ import MyRentalsPage from './components/MyRentalsPage';
 
 import "./styles/styles.css"
 import golomb from "./golomb-watoski.png"
-
 
 
 export default function App() {
@@ -95,7 +93,7 @@ export default function App() {
                             About
                         </Link>
                     </li>
-                    
+
 
                     {showAdminBoard ? (
                         <li className="nav-item">
@@ -103,12 +101,12 @@ export default function App() {
                                 Admin board
                             </Link>
                         </li>
-                    ) : ( currentUser && (
-                        <li className="nav-item">
-                            <Link to={"/myrentals"} className="nav-link">
-                                My rentals
-                            </Link>
-                        </li>)
+                    ) : (currentUser && (
+                            <li className="nav-item">
+                                <Link to={"/myrentals"} className="nav-link">
+                                    My rentals
+                                </Link>
+                            </li>)
                     )}
 
                     {/* {currentUser && (
@@ -170,7 +168,7 @@ export default function App() {
                 <Route exact path="/user" element={<UserPage/>}/>
                 <Route exact path="/rent" element={<RentForm rentCarId={rentCarId}/>}/>
                 <Route exact path="/info/:id" element={<CarInfo/>}/>
-                
+
             </Routes>
         </div>
     )

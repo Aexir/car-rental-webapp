@@ -1,8 +1,6 @@
-import React from 'react';
-import axios from "axios";
+import React, {useCallback, useEffect, useState} from 'react';
 import '../styles/forms.css'
-import { useCallback, useState, useEffect } from 'react';
-import {Link, Route, Routes, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 function SearchForm() {
     const [showrooms, setShowrooms] = useState([])
@@ -39,13 +37,13 @@ function SearchForm() {
     useEffect(() => {
 
         fetchDataHandler()
-        console.log({ showrooms })
-       /* Data.filter(val => {
-            if (val.name.toLowerCase().includes(Showroom.toLowerCase())) {
-                setOutput(output => [...output, val])
-            }
-        })
- */
+        console.log({showrooms})
+        /* Data.filter(val => {
+             if (val.name.toLowerCase().includes(Showroom.toLowerCase())) {
+                 setOutput(output => [...output, val])
+             }
+         })
+  */
 
 
     }, []);
@@ -68,17 +66,18 @@ function SearchForm() {
                         value={showroom}
                         onChange={onChangeShowroom}
                     >
-                    <option className='tohide' ></option>
+                        <option className='tohide'></option>
                         {showrooms.map((item) => (
-                            <option key={item} >{item}</option>))}
-        
+                            <option key={item}>{item}</option>))}
+
                     </select>
                     {/* {console.log({showrooms})} */}
-                    <input value="Select" type="submit" />
+                    <input value="Select" type="submit"/>
                 </div>
             </form>
         </div>
 
     )
 }
+
 export default SearchForm;

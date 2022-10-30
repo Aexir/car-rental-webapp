@@ -1,23 +1,14 @@
 package pl.wat.tai.carsharing.services;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-
-
-import io.swagger.models.Response;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 import pl.wat.tai.carsharing.config.PayUConfigurationProperties;
 import pl.wat.tai.carsharing.data.entities.Car;
 import pl.wat.tai.carsharing.data.entities.Payment;
@@ -32,11 +23,12 @@ import pl.wat.tai.carsharing.repositories.PaymentRepository;
 import pl.wat.tai.carsharing.repositories.UserRepository;
 import pl.wat.tai.carsharing.services.interfaces.RentService;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import static pl.wat.tai.carsharing.data.response.OrderCreateResponse.Status.STATUS_CODE_SUCCESS;
@@ -61,21 +53,21 @@ public class PayUOrderService {
         return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
     }
 
-    public ResponseEntity<?> handleCheckout(@RequestBody RentRequest rentRequest, HttpServletRequest request){
+    public ResponseEntity<?> handleCheckout(@RequestBody RentRequest rentRequest, HttpServletRequest request) {
 
         long daysBetween = getDifferenceDays(rentRequest.getStartDate(), rentRequest.getEndDate());
 
         Car car = carRepository.getReferenceById(rentRequest.getCarId());
         User user = userRepository.getReferenceById(rentRequest.getUserId());
 
-        float totalAmount  = daysBetween*car.getPrice();
+        float totalAmount = daysBetween * car.getPrice();
 
-        String productName= car.getBrand() + " " + car.getModel();
+        String productName = car.getBrand() + " " + car.getModel();
         float unitPrice = totalAmount;
         String email = user.getEmail();
 
         //OrderCreateRequest orderRequest = prepareOrderCreateRequest(totalAmount, productName, unitPrice, email, request);
-        OrderCreateRequest orderRequest = prepareOrderCreateRequest(String.valueOf((int)totalAmount), productName, String.valueOf(unitPrice), email, request);
+        OrderCreateRequest orderRequest = prepareOrderCreateRequest(String.valueOf((int) totalAmount), productName, String.valueOf(unitPrice), email, request);
 
         OrderCreateResponse orderResponse = order(orderRequest);
 
@@ -98,10 +90,9 @@ public class PayUOrderService {
     }
 
 
-
-    private OrderCreateRequest prepareOrderCreateRequest(String totalAmount, String productName, String unitPrice, String email,  final HttpServletRequest request) {
+    private OrderCreateRequest prepareOrderCreateRequest(String totalAmount, String productName, String unitPrice, String email, final HttpServletRequest request) {
         String unitPrice1 = Objects.nonNull(totalAmount)
-                ? String.valueOf(100 * Integer.parseInt( totalAmount))
+                ? String.valueOf(100 * Integer.parseInt(totalAmount))
                 : "2500";
         return OrderCreateRequest.builder()
                 .customerIp(request.getRemoteAddr())
@@ -109,7 +100,7 @@ public class PayUOrderService {
                 .description(payUConfiguration.getDescription())
                 .currencyCode("PLN")
                 .totalAmount(
-                        String.valueOf(unitPrice1)
+                        unitPrice1
                 ).products(
                         Collections.singletonList(
                                 Product.builder()
@@ -117,11 +108,10 @@ public class PayUOrderService {
                                                 productName
                                         ).quantity("1")
                                         .unitPrice(
-                                                String.valueOf(unitPrice1)
+                                                unitPrice1
                                         ).build()
                         )).email(email).locale("pl").build();
     }
-
 
 
     @SneakyThrows

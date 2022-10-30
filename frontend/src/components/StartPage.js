@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React from 'react';
 import {useNavigate} from "react-router-dom"
 import SearchForm from './SearchForm';
 import Map from './Map';
@@ -13,16 +13,16 @@ export default function StartPage({FindCars}) {
         <div className='startpage-container'>
             <div className='startpage-inner'>
                 <h3>Our cars</h3>
-                <ReactCardSlider />
+                <ReactCardSlider/>
             </div>
             <div className='startpage-inner'>
                 <h3>Our showrooms</h3>
                 <div className='startpage-group'>
-                    <SearchForm />
+                    <SearchForm/>
                 </div>
                 <div className='startpage-group'>
                     <h4 className='select-on-map'>Or select on the map:</h4>
-                    <Map />
+                    <Map/>
                 </div>
             </div>
         </div>

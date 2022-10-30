@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import pl.wat.tai.carsharing.data.requests.EditRentRequest;
 import pl.wat.tai.carsharing.data.requests.RentRequest;
 import pl.wat.tai.carsharing.data.response.MessageResponse;
 import pl.wat.tai.carsharing.data.response.RentResponse;
@@ -63,7 +62,7 @@ public class RentServiceImpl implements RentService {
     @Override
     @Transactional
     public ResponseEntity<?> editRent(long rentId) {
-        if (rentMapper.editRequestToRent(rentId)== null){
+        if (rentMapper.editRequestToRent(rentId) == null) {
             return ResponseEntity.badRequest().body(new MessageResponse("FAILED TO COS TAM"));
         }
         rentRepository.save(rentMapper.editRequestToRent(rentId));

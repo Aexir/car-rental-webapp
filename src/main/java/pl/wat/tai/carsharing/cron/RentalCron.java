@@ -26,9 +26,9 @@ public class RentalCron {
     @Scheduled(cron = "0 0 * * * *")
     public void endRentals() {
         Date date = new Date(System.currentTimeMillis());
-        for (Rent rent : rentRepository.findAll()){
+        for (Rent rent : rentRepository.findAll()) {
             Car car = rent.getCar();
-            if (date.after(rent.getEndDate())){
+            if (date.after(rent.getEndDate())) {
                 rent.setRentStatus("ENDED");
                 car.setCarStatus("FREE");
                 carRepository.save(car);

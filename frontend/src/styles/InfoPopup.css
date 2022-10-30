@@ -4,7 +4,7 @@
     left: 0;
     width: 100%;
     height: 100vh;
-    background-color: rgba(0,0,0,0.3);
+    background-color: rgba(0, 0, 0, 0.3);
 
     display: flex;
     justify-content: center;
@@ -60,7 +60,7 @@
 
 .popup-inner .return-button:hover {
     background-color: rgb(250, 152, 25);
-} 
+}
 
 .popup-inner .cancel-button {
     position: absolute;

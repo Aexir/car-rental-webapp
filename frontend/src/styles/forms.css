@@ -3,32 +3,36 @@
     margin: 0 auto;
     text-align: center;
 }
-    #form-control label {
-        text-align: left;
-        display: block;
-    }
-    #form-control h2 {
-        font-size: 20px;
-        color: #006697;
-        margin-bottom: 30px;
-        padding-top: 10px;
-    }
-    #form-control input, #form-control textarea {
-        width: 100%;
-        padding: 6px 10px;
-        margin: 10px 0;
-        border: 1px solid #ddd;
-        box-sizing: border-box;
-        display: block;
-    }
-    #form-control button {
-        background: #006697;
-        color: #fff;
-        border: 0;
-        padding: 8px;
-        border-radius: 8px;
-        cursor: pointer;
-    }
+
+#form-control label {
+    text-align: left;
+    display: block;
+}
+
+#form-control h2 {
+    font-size: 20px;
+    color: #006697;
+    margin-bottom: 30px;
+    padding-top: 10px;
+}
+
+#form-control input, #form-control textarea {
+    width: 100%;
+    padding: 6px 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+    display: block;
+}
+
+#form-control button {
+    background: #006697;
+    color: #fff;
+    border: 0;
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+}
 
 #form-finding {
     max-width: 400px;
@@ -48,17 +52,17 @@
     margin-bottom: 30px;
 }
 
-    #form-finding select, #form-control select {
-        width: 100%;
-        padding: 6px 10px;
-        margin: 10px 0;
-        border: 1px solid #ddd;
-        box-sizing: border-box;
-        display: block;
-        cursor: pointer;
-    }
+#form-finding select, #form-control select {
+    width: 100%;
+    padding: 6px 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+    display: block;
+    cursor: pointer;
+}
 
-#form-finding input[type="submit"],#form-control input[type="submit"] {
+#form-finding input[type="submit"], #form-control input[type="submit"] {
     background: #51a5cc;
     color: #fff;
     width: 100%;
@@ -69,11 +73,11 @@
     transition: 0.4s;
 }
 
-#form-finding input[type="submit"]:hover,#form-control input[type="submit"]:hover {
+#form-finding input[type="submit"]:hover, #form-control input[type="submit"]:hover {
     background-color: #006da0;
 }
 
-.autocom-box select[type="text"]{
+.autocom-box select[type="text"] {
     padding: 8px 12px;
     width: 100%;
     cursor: pointer;

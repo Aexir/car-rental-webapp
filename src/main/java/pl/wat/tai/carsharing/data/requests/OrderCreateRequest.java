@@ -2,7 +2,6 @@ package pl.wat.tai.carsharing.data.requests;
 
 import lombok.Builder;
 import lombok.Data;
-import pl.wat.tai.carsharing.data.entities.User;
 import pl.wat.tai.carsharing.payu.Product;
 
 import java.util.List;

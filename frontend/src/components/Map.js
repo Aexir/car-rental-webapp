@@ -1,6 +1,6 @@
-import { Button } from '@material-ui/core';
-import React, { useCallback, useState, useEffect } from 'react';
-import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
+import {Button} from '@material-ui/core';
+import React, {useCallback, useEffect, useState} from 'react';
+import {MapContainer, Marker, Popup, TileLayer} from 'react-leaflet';
 import {useNavigate} from "react-router-dom"
 
 export default function Map() {
@@ -34,24 +34,24 @@ export default function Map() {
         navigate("/search")
     };
 
-    return(
+    return (
         <div id="map" className="leafletContainer">
-            <MapContainer style={{height: '100%', width:'100%'}} center={[52.0, 19.4]} zoom={6} scrollWheelZoom={true}>
+            <MapContainer style={{height: '100%', width: '100%'}} center={[52.0, 19.4]} zoom={6} scrollWheelZoom={true}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
                 {
                     showrooms.map(showroom => (
-                                <Marker key={showroom.id} position={[showroom.latitude, showroom.longitude]}>
-                                    <Popup>
-                                        <div>
-                                            <label>{showroom.name}  </label>
-                                            <Button onClick={() => clickEvent({ showroom })}>Select</Button>
-                                        </div>
-                                    </Popup>
-                                </Marker>
-                ))}
+                        <Marker key={showroom.id} position={[showroom.latitude, showroom.longitude]}>
+                            <Popup>
+                                <div>
+                                    <label>{showroom.name}  </label>
+                                    <Button onClick={() => clickEvent({showroom})}>Select</Button>
+                                </div>
+                            </Popup>
+                        </Marker>
+                    ))}
             </MapContainer>
         </div>
     )

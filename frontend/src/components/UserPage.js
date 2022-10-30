@@ -125,13 +125,13 @@ export default function UserPage() {
 
     return (
         currentUser ? (
-        <div>
-            <InfoPopup trigger={popupTrigger} setTrigger={setPopupTrigger}>
-                <h3>{popupMessage}</h3>
-            </InfoPopup>
-            <h2 className='page-title'>User page</h2>
-            <div className="user-container">
-                {/* <form onSubmit={submitProfileHandler} className="form">
+            <div>
+                <InfoPopup trigger={popupTrigger} setTrigger={setPopupTrigger}>
+                    <h3>{popupMessage}</h3>
+                </InfoPopup>
+                <h2 className='page-title'>User page</h2>
+                <div className="user-container">
+                    {/* <form onSubmit={submitProfileHandler} className="form">
                 <h3 className='user-profile'>Change your info</h3>
                     <div className="form-inner">
                         <div className="form-group">
@@ -152,29 +152,31 @@ export default function UserPage() {
                         <input className="form-submit" type="submit" value="Update profile"/>
                     </div>
                 </form> */}
-                <div className="form">
-                <h3 className='user-profile'>Change your info</h3>
-                    <div className="form-inner">
-                        <div className="form-group">
-                            <label htmlFor="name">Name:</label>
-                            <input type="text" name="name" id="name" value={username} /*defaultValue={currentUsername}*/
-                                onChange={onChangeUsername}/>
+                    <div className="form">
+                        <h3 className='user-profile'>Change your info</h3>
+                        <div className="form-inner">
+                            <div className="form-group">
+                                <label htmlFor="name">Name:</label>
+                                <input type="text" name="name" id="name"
+                                       value={username} /*defaultValue={currentUsername}*/
+                                       onChange={onChangeUsername}/>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="email">Email:</label>
+                                <input type="email" name="email" id="email"
+                                       value={email}  /*defaultValue={currentEmail}*/
+                                       onChange={onChangeEmail}/>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="password">Current password:</label>
+                                <input type="password" name="password" id="password" value={password}
+                                       onChange={onChangePassword}/>
+                            </div>
+                            <button className="form-submit" onClick={submitProfileHandler}>Update profile</button>
                         </div>
-                        <div className="form-group">
-                            <label htmlFor="email">Email:</label>
-                            <input type="email" name="email" id="email" value={email}  /*defaultValue={currentEmail}*/
-                                onChange={onChangeEmail}/>
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="password">Current password:</label>
-                            <input type="password" name="password" id="password" value={password}
-                                onChange={onChangePassword}/>
-                        </div>
-                        <button className="form-submit" onClick={submitProfileHandler}>Update profile</button>
                     </div>
-                </div>
 
-                {/* <form onSubmit={submitPasswordHandler} className="form">
+                    {/* <form onSubmit={submitPasswordHandler} className="form">
                 <h3 className='user-profile'>Change your password</h3>
                     <div className="form-inner">
                         <div className="form-group">
@@ -191,25 +193,26 @@ export default function UserPage() {
                     </div>
                 </form> */}
 
-                <div className="form">
-                <h3 className='user-profile'>Change your password</h3>
-                    <div className="form-inner">
-                        <div className="form-group">
-                            <label htmlFor="currentPassword">Current password:</label>
-                            <input type="password" name="currentPassword" id="currentPassword" value={currentPassword}
-                                onChange={onChangeCurrentPassword}/>
+                    <div className="form">
+                        <h3 className='user-profile'>Change your password</h3>
+                        <div className="form-inner">
+                            <div className="form-group">
+                                <label htmlFor="currentPassword">Current password:</label>
+                                <input type="password" name="currentPassword" id="currentPassword"
+                                       value={currentPassword}
+                                       onChange={onChangeCurrentPassword}/>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="newPassword">New password:</label>
+                                <input type="password" name="newPassword" id="newPassword" value={newPassword}
+                                       onChange={onChangeNewPassword}/>
+                            </div>
+                            <button className="form-submit" onClick={submitPasswordHandler}>Update password</button>
                         </div>
-                        <div className="form-group">
-                            <label htmlFor="newPassword">New password:</label>
-                            <input type="password" name="newPassword" id="newPassword" value={newPassword}
-                                onChange={onChangeNewPassword}/>
-                        </div>
-                        <button className="form-submit" onClick={submitPasswordHandler}>Update password</button>
                     </div>
-                </div>
 
-            </div>
-        </div> ) : (
+                </div>
+            </div>) : (
             <div className="user-container">
                 <h3 className='user-profile'>Login to see your user profile</h3>
             </div>

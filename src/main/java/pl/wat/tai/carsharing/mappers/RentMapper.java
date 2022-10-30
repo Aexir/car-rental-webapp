@@ -4,10 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import pl.wat.tai.carsharing.data.entities.Car;
 import pl.wat.tai.carsharing.data.entities.Rent;
-import pl.wat.tai.carsharing.data.requests.EditRentRequest;
 import pl.wat.tai.carsharing.data.requests.RentRequest;
 import pl.wat.tai.carsharing.data.response.RentResponse;
-import pl.wat.tai.carsharing.repositories.*;
+import pl.wat.tai.carsharing.repositories.CarRepository;
+import pl.wat.tai.carsharing.repositories.RentRepository;
+import pl.wat.tai.carsharing.repositories.ShowroomRepository;
+import pl.wat.tai.carsharing.repositories.UserRepository;
 
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -80,7 +82,7 @@ public class RentMapper {
 
     public Rent editRequestToRent(long rentId) {
         Rent rent = rentRepository.getReferenceById(rentId);
-        if (Objects.equals(rent.getRentStatus(), "ACTIVE")){
+        if (Objects.equals(rent.getRentStatus(), "ACTIVE")) {
             rent.setRentStatus("ENDED");
             rent.getCar().setCarStatus("FREE");
             rent.getEndShowroom().getCars().add(rent.getCar());

@@ -1,7 +1,7 @@
 #main-container {
     justify-content: center;
     align-items: center;
-    background-color:#459be4;
+    background-color: #459be4;
     height: 170px;
     width: 100%;
     padding: 10px;
@@ -27,24 +27,26 @@
 
 #main-container img {
     display: block;
-   
+
     width: 60%;
-   min-width: 600px;
+    min-width: 600px;
     margin: auto;
     margin-top: -130px;
     /*    justify-content: center;
 */ /*align-items: center;*/
 }
+
 #main-container div {
     display: inline-grid;
     margin-left: 20px;
     margin-right: 20px;
     margin-top: 20px;
 }
+
 #main-container .title {
     font-size: 30px;
     font-weight: 100;
-   /* text-align: inherit;*/
+    /* text-align: inherit;*/
     display: inline-block;
     padding: 10px 10px 10px 10px;
     margin-left: 40px;
@@ -54,8 +56,9 @@
     float: left;
     width: 9em;
 }
+
 #main-container label {
-/*    text-align: inherit;*/
+    /*    text-align: inherit;*/
     display: inline-block;
     padding: 10px 10px 10px 10px;
     margin-left: 20px;

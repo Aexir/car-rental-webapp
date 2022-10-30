@@ -6,7 +6,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.wat.tai.carsharing.data.entities.Car;
 import pl.wat.tai.carsharing.data.entities.CarImage;
 import pl.wat.tai.carsharing.data.entities.Showroom;
-import pl.wat.tai.carsharing.data.requests.TableRequest;
 import pl.wat.tai.carsharing.data.response.TableResponse;
 import pl.wat.tai.carsharing.mappers.CarImageMapper;
 import pl.wat.tai.carsharing.repositories.CarImageRepository;
@@ -31,10 +30,10 @@ public class TableServiceImpl implements TableService {
 
 
     @Transactional
-    public List<TableResponse> getAll(TableRequest tableRequest) {
+    public List<TableResponse> getAll(String name) {
         List<TableResponse> tableResponses = new ArrayList<>();
 
-        Showroom showroom = showroomRepository.findByName(tableRequest.getShowroom());
+        Showroom showroom = showroomRepository.findByName(name);
         for (Car car : showroom.getCars()) {
             if (car.getCarStatus().equals("FREE")) {
                 TableResponse tableResponse = new TableResponse();

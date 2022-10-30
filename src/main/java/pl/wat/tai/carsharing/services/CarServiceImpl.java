@@ -12,12 +12,17 @@ import pl.wat.tai.carsharing.data.response.AboutCarResponse;
 import pl.wat.tai.carsharing.data.response.CarResponse;
 import pl.wat.tai.carsharing.mappers.CarImageMapper;
 import pl.wat.tai.carsharing.mappers.CarMapper;
-import pl.wat.tai.carsharing.repositories.*;
+import pl.wat.tai.carsharing.repositories.CarImageRepository;
+import pl.wat.tai.carsharing.repositories.CarRepository;
+import pl.wat.tai.carsharing.repositories.CarTypesRepository;
+import pl.wat.tai.carsharing.repositories.FuelTypesRepository;
 import pl.wat.tai.carsharing.services.interfaces.CarService;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 
@@ -96,7 +101,7 @@ public class CarServiceImpl implements CarService {
         List<AboutCarResponse> aboutCarResponses = new ArrayList<>();
 
         List<Car> cars = carRepository.findAll();
-        for (Car car : cars){
+        for (Car car : cars) {
             AboutCarResponse aboutCarResponse = new AboutCarResponse();
             aboutCarResponse.setBrand(car.getBrand());
             aboutCarResponse.setModel(car.getModel());
@@ -104,12 +109,12 @@ public class CarServiceImpl implements CarService {
             aboutCarResponse.setPrice(car.getPrice());
             aboutCarResponse.setTransmission(car.getTransmission());
             boolean xd = false;
-            for (AboutCarResponse aboutCarResponse1 : aboutCarResponses){
+            for (AboutCarResponse aboutCarResponse1 : aboutCarResponses) {
                 /*Drabinka ifow XDDDD*/
                 if (Objects.equals(aboutCarResponse1.getBrand(), aboutCarResponse.getBrand())) {
-                    if (Objects.equals(aboutCarResponse1.getModel(), aboutCarResponse.getModel())){
+                    if (Objects.equals(aboutCarResponse1.getModel(), aboutCarResponse.getModel())) {
                         if (Objects.equals(aboutCarResponse1.getEngine(), aboutCarResponse.getEngine())) {
-                            if (Objects.equals(aboutCarResponse1.getTransmission(), aboutCarResponse.getTransmission())){
+                            if (Objects.equals(aboutCarResponse1.getTransmission(), aboutCarResponse.getTransmission())) {
                                 xd = true;
                                 break;
                             }

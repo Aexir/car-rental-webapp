@@ -1,10 +1,9 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import axios from "axios";
 /*import RentForm from './RentForm';
 import FindForm from './FindForm';*/
 import InfoPopup from './InfoPopup.js'
 import AuthService from '../services/auth.service';
-import AdminTable from './AdminTable.js';
 import "../styles/UserPage.css"
 
 export default function AdminManagePage() {
@@ -13,25 +12,25 @@ export default function AdminManagePage() {
 
     const [popupTrigger, setPopupTrigger] = useState(false);
     const [popupMessage, setPopupMessage] = useState("")
-   
+
     const [currentUser, setCurrentUser] = useState(undefined);
     const [showAdminBoard, setShowAdminBoard] = useState(false);
 
-    const[carIdAddTo, setCarIdAddTo] = useState("")
-    const[showroomAddTo, setShowroomAddTo] = useState("")
+    const [carIdAddTo, setCarIdAddTo] = useState("")
+    const [showroomAddTo, setShowroomAddTo] = useState("")
 
-    const[carIdRemoveFrom, setCarIdRemoveFrom] = useState("")
-    const[showroomRemoveFrom, setShowroomRemoveFrom] = useState("")
+    const [carIdRemoveFrom, setCarIdRemoveFrom] = useState("")
+    const [showroomRemoveFrom, setShowroomRemoveFrom] = useState("")
 
-    const[carIdRemove, setCarIdRemove] = useState("")
+    const [carIdRemove, setCarIdRemove] = useState("")
 
-    const[showroomRemove, setShowroomRemove] = useState("")
+    const [showroomRemove, setShowroomRemove] = useState("")
 
     const [brand, setBrand] = useState("");
     const [carType, setCarType] = useState("");
     const [engine, setEngine] = useState("");
     const [image, setImage] = useState();
-    const [fuel,setFuel] = useState("");
+    const [fuel, setFuel] = useState("");
     const [model, setModel] = useState("");
     const [plate, setPlate] = useState("");
     const [price, setPrice] = useState(0);
@@ -71,12 +70,12 @@ export default function AdminManagePage() {
     const onChangeBrand = (e) => {
         const brand = e.target.value;
         setBrand(brand);
-        
+
     };
     const onChangeEngine = (e) => {
         const engine = e.target.value;
         setEngine(engine);
-        
+
     };
     const onChangeModel = (e) => {
         const model = e.target.value;
@@ -131,9 +130,9 @@ export default function AdminManagePage() {
         e.preventDefault();
 
         const response = await axios
-        .post("http://localhost:8080/showroom/" + showroomAddTo + "/" + carIdAddTo, {}, {});
+            .post("http://localhost:8080/showroom/" + showroomAddTo + "/" + carIdAddTo, {}, {});
         if (response) {
-            if(response.status==200){
+            if (response.status == 200) {
                 setPopupMessage("Car added to showroom!");
             } else {
                 setPopupMessage("Call failed");
@@ -147,9 +146,9 @@ export default function AdminManagePage() {
         e.preventDefault();
 
         const response = await axios
-        .delete("http://localhost:8080/showroom/remove/" + showroomRemoveFrom + "/" + carIdRemoveFrom, {}, {});
+            .delete("http://localhost:8080/showroom/remove/" + showroomRemoveFrom + "/" + carIdRemoveFrom, {}, {});
         if (response) {
-            if(response.status==200){
+            if (response.status == 200) {
                 setPopupMessage("Car removed from showroom!");
             } else {
                 setPopupMessage("Call failed");
@@ -163,9 +162,9 @@ export default function AdminManagePage() {
         e.preventDefault();
 
         const response = await axios
-        .delete("http://localhost:8080/cars/remove/" + carIdRemove, {}, {});
+            .delete("http://localhost:8080/cars/remove/" + carIdRemove, {}, {});
         if (response) {
-            if(response.status==200){
+            if (response.status == 200) {
                 setPopupMessage("Car removed!");
             } else {
                 setPopupMessage("Call failed");
@@ -179,9 +178,9 @@ export default function AdminManagePage() {
         e.preventDefault();
 
         const response = await axios
-        .delete("http://localhost:8080/showroom/remove/" + showroomRemove, {}, {});
+            .delete("http://localhost:8080/showroom/remove/" + showroomRemove, {}, {});
         if (response) {
-            if(response.status==200){
+            if (response.status == 200) {
                 setPopupMessage("Showroom removed!");
             } else {
                 setPopupMessage("Call failed");
@@ -206,15 +205,15 @@ export default function AdminManagePage() {
         formData.append("seats", seats)
         formData.append("transmission", transmission)
         formData.append("vin", vin)
-        
+
         const config = {
             headers: {
-              "content-type": "multipart/form-data"
+                "content-type": "multipart/form-data"
             }
         }
         const response = await axios.post("http://localhost:8080/cars/add/", formData, config);
         if (response) {
-            if(response.status==200){
+            if (response.status == 200) {
                 setPopupMessage("Car added!");
             } else {
                 setPopupMessage("Call failed");
@@ -237,7 +236,7 @@ export default function AdminManagePage() {
             name: showroom,
         });
         if (response) {
-            if(response.status==200){
+            if (response.status == 200) {
                 setPopupMessage("Showroom added!");
             } else {
                 setPopupMessage("Call failed");
@@ -283,7 +282,7 @@ export default function AdminManagePage() {
 
     useEffect(() => {
         fetchShowroomsHandler()
-        console.log({ showrooms })
+        console.log({showrooms})
 
         const user = AuthService.getCurrentUser();
 
@@ -295,144 +294,144 @@ export default function AdminManagePage() {
 
     return (
         showAdminBoard ? (
-        <div>
-            <InfoPopup trigger={popupTrigger} setTrigger={setPopupTrigger}>
-                <h3>{popupMessage}</h3>
-            </InfoPopup>
-            <h2 className='page-title'>Admin management</h2>
-            <div className="user-container">
-                <div className="form">
-                    <div className="form-inner">
-                        <h3 className='car-add-to'>Add a car to showroom</h3>
-                        <div className="form-group">
-                            <label htmlFor="carIdAddTo">Car ID:</label>
-                            <input  name="carIdAddTo" id="carIdAddTo" value={carIdAddTo}
-                                onChange={onChangeCarIdAddTo} />
+            <div>
+                <InfoPopup trigger={popupTrigger} setTrigger={setPopupTrigger}>
+                    <h3>{popupMessage}</h3>
+                </InfoPopup>
+                <h2 className='page-title'>Admin management</h2>
+                <div className="user-container">
+                    <div className="form">
+                        <div className="form-inner">
+                            <h3 className='car-add-to'>Add a car to showroom</h3>
+                            <div className="form-group">
+                                <label htmlFor="carIdAddTo">Car ID:</label>
+                                <input name="carIdAddTo" id="carIdAddTo" value={carIdAddTo}
+                                       onChange={onChangeCarIdAddTo}/>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="showroomAddTo">Showroom name:</label>
+                                <input name="showroomAddTo" id="showroomAddTo" value={showroomAddTo}
+                                       onChange={onChangeShowroomAddTo}/>
+                            </div>
+                            <button className="form-submit" onClick={submitCarAddToHandler}>Add</button>
                         </div>
-                        <div className="form-group">
-                            <label htmlFor="showroomAddTo">Showroom name:</label>
-                            <input  name="showroomAddTo" id="showroomAddTo" value={showroomAddTo}
-                                onChange={onChangeShowroomAddTo} />
+                        <div className="form-inner">
+                            <h3 className='car-add-to'>Remove a car from showroom</h3>
+                            <div className="form-group">
+                                <label htmlFor="carIdRemoveFrom">Car ID:</label>
+                                <input name="carIdRemoveFrom" id="carIdRemoveFrom" value={carIdRemoveFrom}
+                                       onChange={onChangeCarIdRemoveFrom}/>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="showroomRemoveFrom">Showroom name:</label>
+                                <input name="showroomRemoveFrom" id="showroomRemoveFrom" value={showroomRemoveFrom}
+                                       onChange={onChangeShowroomRemoveFrom}/>
+                            </div>
+                            <button className="form-submit" onClick={submitCarRemoveFromHandler}>Remove</button>
                         </div>
-                        <button className="form-submit" onClick={submitCarAddToHandler}>Add</button>
+                        <div className="form-inner">
+                            <h3 className='car-remove'>Remove a car</h3>
+                            <div className="form-group">
+                                <label htmlFor="carIdRemove">Car ID:</label>
+                                <input name="carIdRemove" id="carIdRemove" value={carIdRemove}
+                                       onChange={onChangeCarIdRemove}/>
+                            </div>
+                            <button className="form-submit" onClick={submitCarRemoveHandler}>Remove</button>
+                        </div>
+                        <div className="form-inner">
+                            <h3 className='showroom-remove'>Remove a showroom</h3>
+                            <div className="form-group">
+                                <label htmlFor="showroomRemove">Showroom name:</label>
+                                <input name="showroomRemove" id="showroomRemove" value={showroomRemove}
+                                       onChange={onChangeShowroomRemove}/>
+                            </div>
+                            <button className="form-submit" onClick={submitShowroomRemoveHandler}>Remove</button>
+                        </div>
                     </div>
-                    <div className="form-inner">
-                        <h3 className='car-add-to'>Remove a car from showroom</h3>
-                        <div className="form-group">
-                            <label htmlFor="carIdRemoveFrom">Car ID:</label>
-                            <input  name="carIdRemoveFrom" id="carIdRemoveFrom" value={carIdRemoveFrom}
-                                onChange={onChangeCarIdRemoveFrom} />
+                    <div className="form">
+                        <div className="form-inner">
+                            <h3 className='car-add'>Add a car</h3>
+                            <div className="form-group">
+                                <label htmlFor="brand">Brand:</label>
+                                <input name="brand" id="brand" value={brand}
+                                       onChange={onChangeBrand}/>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="CarType">Car Type:</label>
+                                <input name="CarType" id="CarType" value={carType}
+                                       onChange={onChangeCarType}/>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="Engine">Engine:</label>
+                                <input name="Engine" id="Engine" value={engine}
+                                       onChange={onChangeEngine}/>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="Image">Image:</label>
+                                <input type="file" name="Image" id="Image"
+                                       onChange={onChangeImage}/>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="Fuel">Fuel:</label>
+                                <input name="Fuel" id="Fuel" value={fuel}
+                                       onChange={onChangeFuel}/>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="Model">Model:</label>
+                                <input name="Model" id="Model" value={model}
+                                       onChange={onChangeModel}/>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="Plate">Plate:</label>
+                                <input name="Plate" id="Plate" value={plate}
+                                       onChange={onChangePlate}/>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="Price">Price:</label>
+                                <input name="Price" id="Price" value={price}
+                                       onChange={onChangePrice}/>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="Seats">Seats:</label>
+                                <input name="Seats" id="Seats" value={seats}
+                                       onChange={onChangeSeats}/>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="Transmission">Transmission:</label>
+                                <input name="Transmission" id="Transmission" value={transmission}
+                                       onChange={onChangeTransmission}/>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="Vin">Vin:</label>
+                                <input name="Vin" id="Vin" value={vin}
+                                       onChange={onChangeVin}/>
+                            </div>
+                            <button className="form-submit" onClick={submitCarHandler}>Add</button>
                         </div>
-                        <div className="form-group">
-                            <label htmlFor="showroomRemoveFrom">Showroom name:</label>
-                            <input  name="showroomRemoveFrom" id="showroomRemoveFrom" value={showroomRemoveFrom}
-                                onChange={onChangeShowroomRemoveFrom} />
-                        </div>
-                        <button className="form-submit" onClick={submitCarRemoveFromHandler}>Remove</button>
                     </div>
-                    <div className="form-inner">
-                        <h3 className='car-remove'>Remove a car</h3>
-                        <div className="form-group">
-                            <label htmlFor="carIdRemove">Car ID:</label>
-                            <input  name="carIdRemove" id="carIdRemove" value={carIdRemove}
-                                onChange={onChangeCarIdRemove} />
+                    <div className="form">
+                        <div className="form-inner">
+                            <h3 className='showroom-add'>Add a showroom </h3>
+                            <div className="form-group">
+                                <label htmlFor="latitude">Latitude:</label>
+                                <input name="latitude" id="latitude" value={latitude}
+                                       onChange={onChangeLatitude}/>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="longitude">Longitude:</label>
+                                <input name="longitude" id="longitude" value={longitude}
+                                       onChange={onChangeLongitude}/>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="showroom">Showroom name:</label>
+                                <input name="showroom" id="showroom" value={showroom}
+                                       onChange={onChangeShowroom}/>
+                            </div>
+                            <button className="form-submit" onClick={submitShowroomHandler}>Add</button>
                         </div>
-                        <button className="form-submit" onClick={submitCarRemoveHandler}>Remove</button>
-                    </div>
-                    <div className="form-inner">
-                        <h3 className='showroom-remove'>Remove a showroom</h3>
-                        <div className="form-group">
-                            <label htmlFor="showroomRemove">Showroom name:</label>
-                            <input  name="showroomRemove" id="showroomRemove" value={showroomRemove}
-                                onChange={onChangeShowroomRemove} />
-                        </div>
-                        <button className="form-submit" onClick={submitShowroomRemoveHandler}>Remove</button>
                     </div>
                 </div>
-                <div className="form">
-                    <div className="form-inner">
-                        <h3 className='car-add'>Add a car</h3>
-                        <div className="form-group">
-                            <label htmlFor="brand">Brand:</label>
-                            <input  name="brand" id="brand" value={brand}
-                                onChange={onChangeBrand} />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="CarType">Car Type:</label>
-                            <input name="CarType" id="CarType" value={carType}
-                                onChange={onChangeCarType} />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="Engine">Engine:</label>
-                            <input name="Engine" id="Engine" value={engine}
-                                onChange={onChangeEngine} />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="Image">Image:</label>
-                            <input type="file" name="Image" id="Image"
-                                onChange={onChangeImage} />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="Fuel">Fuel:</label>
-                            <input name="Fuel" id="Fuel" value={fuel}
-                                onChange={onChangeFuel} />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="Model">Model:</label>
-                            <input name="Model" id="Model" value={model}
-                                onChange={onChangeModel} />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="Plate">Plate:</label>
-                            <input name="Plate" id="Plate" value={plate}
-                                onChange={onChangePlate} />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="Price">Price:</label>
-                            <input name="Price" id="Price" value={price}
-                                onChange={onChangePrice} />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="Seats">Seats:</label>
-                            <input name="Seats" id="Seats" value={seats}
-                                onChange={onChangeSeats} />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="Transmission">Transmission:</label>
-                            <input name="Transmission" id="Transmission" value={transmission}
-                                onChange={onChangeTransmission} />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="Vin">Vin:</label>
-                            <input name="Vin" id="Vin" value={vin}
-                                onChange={onChangeVin} />
-                        </div>
-                        <button className="form-submit" onClick={submitCarHandler}>Add</button>
-                    </div>
-                </div>
-                <div className="form">
-                    <div className="form-inner">
-                        <h3 className='showroom-add'>Add a showroom </h3>
-                        <div className="form-group">
-                            <label htmlFor="latitude">Latitude:</label>
-                            <input name="latitude" id="latitude" value={latitude}
-                                onChange={onChangeLatitude} />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="longitude">Longitude:</label>
-                            <input name="longitude" id="longitude" value={longitude}
-                                onChange={onChangeLongitude} />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="showroom">Showroom name:</label>
-                            <input name="showroom" id="showroom" value={showroom}
-                                onChange={onChangeShowroom} />
-                        </div>
-                        <button className="form-submit" onClick={submitShowroomHandler}>Add</button>
-                    </div>
-                </div>
-            </div>
-        </div>) : (
+            </div>) : (
             <div className="user-container">
                 <h3 className='user-profile'>You can't access the admin page</h3>
             </div>

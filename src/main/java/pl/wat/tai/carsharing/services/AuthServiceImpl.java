@@ -1,6 +1,9 @@
 package pl.wat.tai.carsharing.services;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.gson.GsonFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -12,9 +15,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
-import pl.wat.tai.carsharing.data.entities.GmailCredentials;
+import pl.wat.tai.carsharing.DemoApplication;
 import pl.wat.tai.carsharing.data.entities.Role;
 import pl.wat.tai.carsharing.data.entities.User;
 import pl.wat.tai.carsharing.data.entities.VerificationToken;
@@ -31,17 +32,22 @@ import pl.wat.tai.carsharing.services.interfaces.GmailService;
 import pl.wat.tai.carsharing.utils.JwtUtils;
 
 import javax.mail.MessagingException;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URI;
 import java.security.GeneralSecurityException;
-import java.util.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
+    private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
     private final JwtUtils jwtUtils;
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
@@ -142,26 +148,15 @@ public class AuthServiceImpl implements AuthService {
 
         GmailService gmailService = new GmailServiceImpl(GoogleNetHttpTransport.newTrustedTransport());
 
-//        String[] cred = gmailService.getAccessToken();
-//
-//
-//        String accessToken = cred[0];
-//        String refreshCode = cred[1];
-
-        gmailService.setGmailCredentials(GmailCredentials.builder()
-                .userEmail("mcparkour1337@gmail.com")
-                .clientId("685363740170-us1mi13qqrff6ktunh3d67b0bsff4h7j.apps.googleusercontent.com")
-                .clientSecret("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")
-                .accessToken("ya29.A0ARrdaM-i1hBLyDNupW6IwJuZ88tLIAJ2gE_zA0mJIEbvpbWCrBYocAhtweipHzX6WY8f57k3NdfHLWml7WF0zEO9W5to9UGNGCG4jfI9b414v7LQscag0vjOaCdQSLkHR9xFWQFNVKjBkHINb9xRlYiMyyp7YUNnWUtBVEFTQVRBU0ZRRl91NjFWVEZJS3hKVXAzeGZ3X0lmdjJ2Y0JUdw0163")
-                .refreshToken("1//04ihoZrjsEJUMCgYIARAAGAQSNwF-L9IrNM09avf-L1H5JoFyh4ZtzKuXOaQYQgmws2V7zkBFCx7kmOgFEKXYRz0io2WcXT_Eb_E")
-                .build());
-
-        gmailService.sendMessage(user.getEmail(), "Confirm registration", "Confirm your account: " + confirmationUrl);
+        GoogleClientSecrets.load(JSON_FACTORY,
+                new InputStreamReader(DemoApplication.class.getResourceAsStream("/client_secrets.json")));
 
 
-        userRepository.save(user);
-
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+        if (gmailService.sendMessage(user.getEmail(), "Confirm registration", "Confirm your account: " + confirmationUrl)) {
+            return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+        } else {
+            return ResponseEntity.badRequest().body(new MessageResponse("CHUJNIA"));
+        }
     }
 
     @Override

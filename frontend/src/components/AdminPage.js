@@ -1,13 +1,11 @@
-import React, { useCallback, useState, useEffect } from 'react';
-import {Link, Route, Routes, useNavigate} from "react-router-dom";
-import axios from "axios";
+import React, {useCallback, useEffect, useState} from 'react';
+import {useNavigate} from "react-router-dom";
 /*import RentForm from './RentForm';
 import FindForm from './FindForm';*/
 import InfoPopup from './InfoPopup.js'
 import AuthService from '../services/auth.service';
 import AdminTable from './AdminTable.js';
 import "../styles/UserPage.css"
-import ReturnPopup from './ReturnPopup.js';
 
 export default function AdminPage() {
     const [data, setData] = useState([])
@@ -15,7 +13,7 @@ export default function AdminPage() {
 
     const [popupTrigger, setPopupTrigger] = useState(false);
     const [popupMessage, setPopupMessage] = useState("")
-   
+
     const [currentUser, setCurrentUser] = useState(undefined);
     const [showAdminBoard, setShowAdminBoard] = useState(false);
 
@@ -49,16 +47,16 @@ export default function AdminPage() {
 
     return (
         showAdminBoard ? (
-        <div>
-            <InfoPopup trigger={popupTrigger} setTrigger={setPopupTrigger}>
-                <h3>{popupMessage}</h3>
-            </InfoPopup>
-            <h2 className='page-title'>Admin board</h2>
-            <button className='manage-button' onClick={() => navigate("/adminmanage")}>
-                Manage resources
-            </button>
-            <AdminTable data={data}/>
-        </div>) : (
+            <div>
+                <InfoPopup trigger={popupTrigger} setTrigger={setPopupTrigger}>
+                    <h3>{popupMessage}</h3>
+                </InfoPopup>
+                <h2 className='page-title'>Admin board</h2>
+                <button className='manage-button' onClick={() => navigate("/adminmanage")}>
+                    Manage resources
+                </button>
+                <AdminTable data={data}/>
+            </div>) : (
             <div className="user-container">
                 <h3 className='user-profile'>You can't access the admin page</h3>
             </div>

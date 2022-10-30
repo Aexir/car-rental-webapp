@@ -1,5 +1,5 @@
-﻿import React, { useCallback, useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+﻿import React, {useCallback, useEffect, useState} from 'react';
+import {useParams} from 'react-router-dom';
 //import AuthService from '../services/auth.service';
 import '../styles/CarInfo.css'
 
@@ -7,10 +7,10 @@ export default function CarInfo(props) {
     const [Data, setData] = useState([]);
 
     const {id} = useParams();
-    
+
     const fetchDataHandler = useCallback(async () => {
         try {
-            const result = await fetch('http://localhost:8080/cars?id=' + id )//+ new URLSearchParams({id: 1}))
+            const result = await fetch('http://localhost:8080/cars?id=' + id)//+ new URLSearchParams({id: 1}))
 
             if (!result.ok) {
                 throw new Error("Nie uda³o siê pobraæ danych")
@@ -28,11 +28,11 @@ export default function CarInfo(props) {
         fetchDataHandler()
     }, [])
     return (
-        
+
         <div id="main-container">
             <div className="colored-panel"/>
             <h2>{Data.brand} {Data.model} </h2>
-            <img src={Data.url} />
+            <img src={Data.url}/>
             <div>
                 <label className="title">Engine</label>
                 <label> {Data.engine}</label>
@@ -41,11 +41,11 @@ export default function CarInfo(props) {
             <div>
                 <label className="title">Transmission</label>
                 <label>{Data.transmission}</label>
-            </div >
-            <div >
+            </div>
+            <div>
                 <label className="title">Seats {"\n"}</label>
                 <label>{Data.seats}</label>
-            </div >
+            </div>
             <div>
                 <label className="title">Car Type {"\n"}</label>
                 <label>{Data.carType}</label>
@@ -59,5 +59,5 @@ export default function CarInfo(props) {
                 <label>{Data.price}</label>
             </div>
         </div>
-        )
+    )
 }

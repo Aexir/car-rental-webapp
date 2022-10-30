@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react'
+import React, {useState} from 'react'
 import {useNavigate} from "react-router-dom"
 import AuthService from "../services/auth.service";
 import InfoPopup from './InfoPopup';
@@ -92,7 +92,7 @@ export default function LoginForm() {
                         <div className="form-group">
                             <label htmlFor="password">Password:</label>
                             <input type="password" name="passworc" id="password" value={password}
-                                onChange={onChangePassword}/>
+                                   onChange={onChangePassword}/>
                         </div>
                         <button className="form-submit" onClick={submitHandler}>Login</button>
                     </div>

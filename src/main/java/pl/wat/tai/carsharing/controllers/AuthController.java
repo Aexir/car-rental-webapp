@@ -1,9 +1,14 @@
 package pl.wat.tai.carsharing.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import pl.wat.tai.carsharing.data.requests.LoginRequest;
 import pl.wat.tai.carsharing.data.requests.SignupRequest;
 import pl.wat.tai.carsharing.data.response.MessageResponse;
@@ -20,10 +25,7 @@ import java.security.GeneralSecurityException;
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthController {
-
-    @Autowired
     private final AuthService authService;
-
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {

@@ -48,7 +48,7 @@
     transform: scale(1.01)
 }
 
-.trBody:hover .td{
+.trBody:hover .td {
     background: rgba(55, 192, 255, 0.158);
 }
 

@@ -1,9 +1,7 @@
-import React, { useCallback, useState, useEffect } from 'react';
-import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
+import React, {useCallback, useEffect, useState} from 'react';
+import {MdChevronLeft, MdChevronRight} from 'react-icons/md';
 import {useNavigate} from "react-router-dom"
 import '../styles/Slider.css';
-import axios from "axios";
-import HomePage from './HomePage';
 
 function ReactCardSlider() {
     const [cars, setCars] = useState([])
@@ -67,22 +65,24 @@ function ReactCardSlider() {
     return (
         <div id="main-slider-container">
             {/* {console.log(cars)} */}
-            <MdChevronLeft size={40} className="slider-icon left" onClick={slideLeft} />
-            <div id='slider' style={{ justifyContent: 'center' }}>
+            <MdChevronLeft size={40} className="slider-icon left" onClick={slideLeft}/>
+            <div id='slider' style={{justifyContent: 'center'}}>
                 {
                     cars.map((slide, index) => (
-                        <div className="slider-card" key={index} onClick={() => clickEvent({ slide })}>
-                            <div className="slider-card-image" style={{ backgroundImage: `url(${slide.url})`, backgroundSize: 'cover' }}> </div>
-                            <p className="slider-card-title">{slide.brand} {slide.model}</p>
-                            <p className="slider-card-description">{slide.engine}</p>
-                        </div>
-                    )
+                            <div className="slider-card" key={index} onClick={() => clickEvent({slide})}>
+                                <div className="slider-card-image"
+                                     style={{backgroundImage: `url(${slide.url})`, backgroundSize: 'cover'}}></div>
+                                <p className="slider-card-title">{slide.brand} {slide.model}</p>
+                                <p className="slider-card-description">{slide.engine}</p>
+                            </div>
+                        )
                     )
                 }
             </div>
-            <MdChevronRight size={40} className="slider-icon right" onClick={slideRight} />
+            <MdChevronRight size={40} className="slider-icon right" onClick={slideRight}/>
         </div>
     )
 }
+
 export default ReactCardSlider;
 //42~~
